@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useLocation } from '@tanstack/react-router'
-import { useGetCategories, useGetSubCategories } from '@/hooks/Category/query'
+import { useGetSubCategories } from '@/hooks/Category/query'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -16,7 +16,7 @@ import { SubCategoryTable } from './components/subcategory-table'
 export default function Subcategory() {
   const [open, setOpen] = useState(false)
   const [editId, setEditId] = useState()
-  const [title, setTitle] = useState('')
+  const [_, setTitle] = useState('')
   const [properties, setProperties] = useState([''])
   const params: any = useLocation()
   const { data, refetch: refetchSubCategories }: any = useGetSubCategories({

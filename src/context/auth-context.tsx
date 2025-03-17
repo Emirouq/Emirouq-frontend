@@ -25,6 +25,7 @@ const AuthProvider = ({ children }: any) => {
   const login: any = useUserLogin()
   const createCustomers: any = useCreateUser()
   const [loading, setLoading] = useState(false)
+
   const currentUser = useCallback(async () => {
     setLoading(true)
     getCurrentUser()

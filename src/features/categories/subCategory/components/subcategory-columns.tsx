@@ -4,9 +4,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import LongText from '@/components/long-text'
 
 export const columns: any = ({
-  open,
   setOpen,
-  editId,
   setEditId,
   setProperties,
   form,
@@ -15,7 +13,7 @@ export const columns: any = ({
     {
       accessorKey: 'Sr No.',
       header: 'Sr No.',
-      cell: ({ row, idx }: any) => {
+      cell: ({ row }: any) => {
         return <LongText className=''>{row?.index + 1}</LongText>
       },
     },

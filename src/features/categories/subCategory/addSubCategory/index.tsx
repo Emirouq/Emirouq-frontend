@@ -51,7 +51,7 @@ const AddSubCategory = ({
             id: editId,
           },
         })
-        ?.then((res) => {
+        ?.then(() => {
           toast({
             title: 'Success',
             description: 'Sub category updated successfully!',
@@ -94,7 +94,7 @@ const AddSubCategory = ({
             setProperties([''])
             refetch()
           },
-          onError: (error) => {
+          onError: () => {
             toast({
               title: 'Error',
               description: 'Failed to add category',

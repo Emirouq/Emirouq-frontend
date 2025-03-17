@@ -1,6 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
 import dayjs from 'dayjs'
-import { Pencil } from 'lucide-react'
 import { CiEdit } from 'react-icons/ci'
 import { FaChevronRight } from 'react-icons/fa6'
 import { MdDeleteOutline } from 'react-icons/md'
@@ -8,20 +7,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import LongText from '@/components/long-text'
 
 export const columns: any = ({
-  open,
   setOpen,
-  editId,
   setEditId,
   setTitle,
   setLogo,
-  setProperties,
 }: any) => {
   const navigate = useNavigate()
   return [
     {
       accessorKey: 'Sr No.',
       header: 'Sr No.',
-      cell: ({ row, idx }: any) => {
+      cell: ({ row }: any) => {
         return <LongText className=''>{row?.index + 1}</LongText>
       },
     },
@@ -131,7 +127,7 @@ export const columns: any = ({
               )} */}
           </div>
           <span
-            onClick={(e) => {
+            onClick={() => {
               // e?.stopPropagation()
               navigate({
                 to: `/categories/subCategory?categoryId=${row?.original?.uuid}`,

@@ -1,6 +1,5 @@
 import {
   IconCategory,
-  IconChecklist,
   IconLayoutDashboard,
   IconPalette,
   IconSettings,

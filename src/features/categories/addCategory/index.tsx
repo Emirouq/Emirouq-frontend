@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
-import { RxCross2 } from 'react-icons/rx'
 import { useCreateCategory, useUpdateCategory } from '@/hooks/Category/mutation'
 import { toast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
@@ -54,7 +52,7 @@ const AddCategory = ({
     if (editId) {
       updateCategory
         ?.mutateAsync({ body: formData, pathParams: { id: editId } })
-        ?.then((res) => {
+        ?.then(() => {
           toast({
             title: 'Success',
             description: 'Category updted successfully!',
@@ -65,7 +63,7 @@ const AddCategory = ({
           setLogo({ url: '', file: '' })
           refetch()
         })
-        ?.catch((err) => {
+        ?.catch(() => {
           toast({
             title: 'Error',
             description: 'Failed to update category',
@@ -91,7 +89,7 @@ const AddCategory = ({
             setLogo({ url: '', file: '' })
             refetch()
           },
-          onError: (error) => {
+          onError: () => {
             toast({
               title: 'Error',
               description: 'Failed to add category',

@@ -14,7 +14,7 @@ export default function Categories() {
   const [editId, setEditId] = useState()
   const [title, setTitle] = useState('')
   const [logo, setLogo] = useState({ url: '', file: '' })
-  const { data, isLoading, error, refetch }: any = useGetCategories()
+  const { data, refetch }: any = useGetCategories()
 
   return (
     <div>

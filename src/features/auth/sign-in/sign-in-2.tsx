@@ -1,5 +1,4 @@
 import EmirouqLogo from '@/assets/e.png'
-import ViteLogo from '@/assets/ibkr.svg'
 import { UserAuthForm } from './components/user-auth-form'
 
 export default function SignIn2() {

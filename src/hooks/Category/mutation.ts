@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 import {
   addSubCategory,
   createCategoryService,
-  updateCategoryService,
   updateSubCategory,
 } from '@/utils/apiUtils/services/category'
 

@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import {
-  ColumnDef,
   ColumnFiltersState,
   RowData,
   SortingState,
@@ -14,8 +13,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useUpdateCategory } from '@/hooks/Category/mutation'
-import { useGetCategories } from '@/hooks/Category/query'
 import {
   Table,
   TableBody,
@@ -25,7 +22,6 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import PaginationComponent from '@/components/custom/Pagination'
-import { DataTablePagination } from './data-table-pagination'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,11 +36,9 @@ export function SubCategoryTable({ columns, data }: any) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
   const [startIndex, setStartIndex] = useState<number>(0)
-  const [totalCount, setTotalCount] = useState<number>(0)
+  const [totalCount] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState(0)
-  const [prev, setPrev] = useState<Number | any>()
-  const { mutate: updateCategory } = useUpdateCategory()
-  console.log('data?.data', data?.data)
+  const [_, setPrev] = useState<Number | any>()
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),
     columns,

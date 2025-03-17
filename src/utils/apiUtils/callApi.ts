@@ -4,7 +4,7 @@ import { getItem } from './localStorageControl'
 export const socketHostname = () => 'wss://api-utils.tradelizer.com'
 // export const socketHostname = () => 'wss://localhost:4000';
 export const hostname = () => {
-  const hostUrl = 'http://localhost:4001'
+  const hostUrl = 'http://192.168.29.35:4001'
 
   return hostUrl
 }

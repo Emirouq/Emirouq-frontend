@@ -5,7 +5,7 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 
-const dummyPosts = [
+const dummyPosts: any = [
   { id: 1, userId: 101, content: 'This is my first post!', status: 'pending' },
   { id: 2, userId: 102, content: 'Loving this platform!', status: 'pending' },
   {
@@ -17,16 +17,16 @@ const dummyPosts = [
 ]
 
 export default function UserPosts() {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<any>([])
 
   useEffect(() => {
     // Simulate fetching data
     setPosts(dummyPosts)
   }, [])
 
-  const handleStatusChange = (id, newStatus) => {
+  const handleStatusChange = (id: any, newStatus: any) => {
     setPosts(
-      posts.map((post) =>
+      posts.map((post: any) =>
         post.id === id ? { ...post, status: newStatus } : post
       )
     )
@@ -49,7 +49,7 @@ export default function UserPosts() {
         </div>
 
         <div className='space-y-4'>
-          {posts.map((post) => (
+          {posts.map((post: any) => (
             <div
               key={post.id}
               className='flex items-center justify-between rounded-lg border p-4'
@@ -61,7 +61,7 @@ export default function UserPosts() {
               {post.status === 'pending' && (
                 <div className='flex space-x-2'>
                   <Button
-                    variant='success'
+                    // variant='success'
                     onClick={() => handleStatusChange(post.id, 'approved')}
                   >
                     Approve
