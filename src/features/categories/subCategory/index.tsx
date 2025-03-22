@@ -3,7 +3,9 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useLocation } from '@tanstack/react-router'
+import { debounce } from 'lodash'
 import { useGetSubCategories } from '@/hooks/Category/query'
+import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -19,14 +21,21 @@ export default function Subcategory() {
   const [_, setTitle] = useState('')
   const [properties, setProperties] = useState([''])
   const params: any = useLocation()
+  const [keyword, setKeyword] = useState('')
   const { data, refetch: refetchSubCategories }: any = useGetSubCategories({
     pathParams: { id: params?.search?.categoryId },
+    query: { keyword },
   })
   useEffect(() => {
     if (params?.search?.categoryId) {
       refetchSubCategories()
     }
-  }, [params?.search?.categoryId])
+  }, [params?.search?.categoryId, keyword])
+
+  const action = (keyword: any) => {
+    setKeyword(keyword)
+  }
+  const debounceSearch = debounce(action, 500)
 
   const formSchema = z.object({
     title: z.string({
@@ -48,7 +57,7 @@ export default function Subcategory() {
         </div>
       </Header>
       <Main>
-        <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
+        <div className='mb-2 flex-col flex-wrap items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
               Sub Categories
@@ -57,16 +66,24 @@ export default function Subcategory() {
               Manage your categories and their products here.
             </p>
           </div>
-          <AddSubCategory
-            open={open}
-            setOpen={setOpen}
-            setEditId={setEditId}
-            editId={editId}
-            refetch={refetchSubCategories}
-            properties={properties}
-            setProperties={setProperties}
-            form={form}
-          />
+          <div className='flex gap-x-2'>
+            <Input
+              placeholder='Search subcategories...'
+              onChange={(e) => {
+                debounceSearch(e.target.value)
+              }}
+            />
+            <AddSubCategory
+              open={open}
+              setOpen={setOpen}
+              setEditId={setEditId}
+              editId={editId}
+              refetch={refetchSubCategories}
+              properties={properties}
+              setProperties={setProperties}
+              form={form}
+            />
+          </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
           <SubCategoryTable

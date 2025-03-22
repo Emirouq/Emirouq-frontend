@@ -69,7 +69,7 @@ export const sidebarData: SidebarData = {
           icon: IconCategory,
         },
         {
-          title: 'UserPosts',
+          title: 'Posts',
           url: '/userPosts',
           icon: IconGhost,
         },
