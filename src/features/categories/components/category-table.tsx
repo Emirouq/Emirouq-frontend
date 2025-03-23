@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import {
   ColumnFiltersState,
   RowData,
@@ -62,7 +63,7 @@ export function CategoryTable({ columns, data }: any) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-
+  const navigate = useNavigate()
   return (
     <div className='space-y-4'>
       <div className='rounded-md border'>
@@ -91,13 +92,18 @@ export function CategoryTable({ columns, data }: any) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row: any) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className='group/row'
+                  className='group/row cursor-pointer'
+                  onClick={() => {
+                    navigate({
+                      to: `/categories/${row?.original?.uuid}/subCategory`,
+                    })
+                  }}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell: any) => (
                     <TableCell
                       key={cell.id}
                       className={cell.column.columnDef.meta?.className ?? ''}

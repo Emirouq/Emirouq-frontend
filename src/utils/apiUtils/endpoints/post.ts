@@ -8,6 +8,13 @@ const post = {
       uri: '/post',
     },
   },
+  updateStatus:{
+    v1: {
+      ...defaults.methods.PUT,
+      ...defaults.versions.v1,
+      uri: '/post/updateStatus/:id',
+    },
+  }
  
  
 }

@@ -17,11 +17,11 @@ const tabs = [
   },
   {
     label: 'Active',
-    value: 'active',
+    value: 'approved',
   },
   {
     label: 'Inactive',
-    value: 'inactive',
+    value: 'rejected',
   },
   {
     label: 'Pending',
@@ -30,14 +30,19 @@ const tabs = [
 ]
 
 export default function UserPosts() {
-  const { data } = useGetPosts()
+  const [activeTab, setActiveTab] = useState('all')
+  const { data, refetch: refetchPosts } = useGetPosts({
+    query: { status: activeTab === 'all' ? '' : activeTab },
+  })
   const searchParams = useSearch({ from: '/_authenticated/userPosts/' })
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState('all')
 
   useEffect(() => {
-    if (activeTab) {
+    const currentTab = new URLSearchParams(location.search).get('tab')
+
+    if (activeTab && currentTab !== activeTab) {
       updateSearchParams({ tab: activeTab })
+      refetchPosts()
     }
   }, [activeTab])
 
@@ -49,10 +54,10 @@ export default function UserPosts() {
       }),
     })
   }
+
   return (
     <div>
       <Header fixed>
-        {/* <Search /> */}
         <div className='ml-auto flex items-center space-x-4'>
           <ThemeSwitch />
           <ProfileDropdown />

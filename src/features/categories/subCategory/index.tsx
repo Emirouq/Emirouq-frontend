@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useLocation } from '@tanstack/react-router'
+import { useParams } from '@tanstack/react-router'
 import { debounce } from 'lodash'
 import { useGetSubCategories } from '@/hooks/Category/query'
 import { Input } from '@/components/ui/input'
@@ -20,17 +20,17 @@ export default function Subcategory() {
   const [editId, setEditId] = useState()
   const [_, setTitle] = useState('')
   const [properties, setProperties] = useState([''])
-  const params: any = useLocation()
+  const { categoryId }: any = useParams({ strict: false })
   const [keyword, setKeyword] = useState('')
   const { data, refetch: refetchSubCategories }: any = useGetSubCategories({
-    pathParams: { id: params?.search?.categoryId },
+    pathParams: { id: categoryId },
     query: { keyword },
   })
   useEffect(() => {
-    if (params?.search?.categoryId) {
+    if (categoryId) {
       refetchSubCategories()
     }
-  }, [params?.search?.categoryId, keyword])
+  }, [categoryId, keyword])
 
   const action = (keyword: any) => {
     setKeyword(keyword)

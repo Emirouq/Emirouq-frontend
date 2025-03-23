@@ -70,6 +70,9 @@ const AuthenticatedSettingsAppearanceLazyImport = createFileRoute(
 const AuthenticatedSettingsAccountLazyImport = createFileRoute(
   '/_authenticated/settings/account',
 )()
+const AuthenticatedUserPostsPostDetailIndexLazyImport = createFileRoute(
+  '/_authenticated/userPosts/postDetail/',
+)()
 const AuthenticatedCategoriesSubCategoryIndexLazyImport = createFileRoute(
   '/_authenticated/categories/subCategory/',
 )()
@@ -301,6 +304,17 @@ const AuthenticatedSettingsAccountLazyRoute =
     ),
   )
 
+const AuthenticatedUserPostsPostDetailIndexLazyRoute =
+  AuthenticatedUserPostsPostDetailIndexLazyImport.update({
+    id: '/userPosts/postDetail/',
+    path: '/userPosts/postDetail/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/userPosts/postDetail/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const AuthenticatedCategoriesSubCategoryIndexLazyRoute =
   AuthenticatedCategoriesSubCategoryIndexLazyImport.update({
     id: '/categories/subCategory/',
@@ -505,6 +519,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoriesSubCategoryIndexLazyImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/userPosts/postDetail/': {
+      id: '/_authenticated/userPosts/postDetail/'
+      path: '/userPosts/postDetail'
+      fullPath: '/userPosts/postDetail'
+      preLoaderRoute: typeof AuthenticatedUserPostsPostDetailIndexLazyImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
   }
 }
 
@@ -547,6 +568,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUserPostsIndexLazyRoute: typeof AuthenticatedUserPostsIndexLazyRoute
   AuthenticatedUsersIndexLazyRoute: typeof AuthenticatedUsersIndexLazyRoute
   AuthenticatedCategoriesSubCategoryIndexLazyRoute: typeof AuthenticatedCategoriesSubCategoryIndexLazyRoute
+  AuthenticatedUserPostsPostDetailIndexLazyRoute: typeof AuthenticatedUserPostsPostDetailIndexLazyRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -562,6 +584,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedUsersIndexLazyRoute: AuthenticatedUsersIndexLazyRoute,
   AuthenticatedCategoriesSubCategoryIndexLazyRoute:
     AuthenticatedCategoriesSubCategoryIndexLazyRoute,
+  AuthenticatedUserPostsPostDetailIndexLazyRoute:
+    AuthenticatedUserPostsPostDetailIndexLazyRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -594,6 +618,7 @@ export interface FileRoutesByFullPath {
   '/userPosts': typeof AuthenticatedUserPostsIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
   '/categories/subCategory': typeof AuthenticatedCategoriesSubCategoryIndexLazyRoute
+  '/userPosts/postDetail': typeof AuthenticatedUserPostsPostDetailIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -621,6 +646,7 @@ export interface FileRoutesByTo {
   '/userPosts': typeof AuthenticatedUserPostsIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
   '/categories/subCategory': typeof AuthenticatedCategoriesSubCategoryIndexLazyRoute
+  '/userPosts/postDetail': typeof AuthenticatedUserPostsPostDetailIndexLazyRoute
 }
 
 export interface FileRoutesById {
@@ -652,6 +678,7 @@ export interface FileRoutesById {
   '/_authenticated/userPosts/': typeof AuthenticatedUserPostsIndexLazyRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexLazyRoute
   '/_authenticated/categories/subCategory/': typeof AuthenticatedCategoriesSubCategoryIndexLazyRoute
+  '/_authenticated/userPosts/postDetail/': typeof AuthenticatedUserPostsPostDetailIndexLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -683,6 +710,7 @@ export interface FileRouteTypes {
     | '/userPosts'
     | '/users'
     | '/categories/subCategory'
+    | '/userPosts/postDetail'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/500'
@@ -709,6 +737,7 @@ export interface FileRouteTypes {
     | '/userPosts'
     | '/users'
     | '/categories/subCategory'
+    | '/userPosts/postDetail'
   id:
     | '__root__'
     | '/_authenticated'
@@ -738,6 +767,7 @@ export interface FileRouteTypes {
     | '/_authenticated/userPosts/'
     | '/_authenticated/users/'
     | '/_authenticated/categories/subCategory/'
+    | '/_authenticated/userPosts/postDetail/'
   fileRoutesById: FileRoutesById
 }
 
@@ -807,7 +837,8 @@ export const routeTree = rootRoute
         "/_authenticated/tasks/",
         "/_authenticated/userPosts/",
         "/_authenticated/users/",
-        "/_authenticated/categories/subCategory/"
+        "/_authenticated/categories/subCategory/",
+        "/_authenticated/userPosts/postDetail/"
       ]
     },
     "/(auth)/500": {
@@ -908,6 +939,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/categories/subCategory/": {
       "filePath": "_authenticated/categories/subCategory/index.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/userPosts/postDetail/": {
+      "filePath": "_authenticated/userPosts/postDetail/index.lazy.tsx",
       "parent": "/_authenticated"
     }
   }
