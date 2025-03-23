@@ -99,7 +99,7 @@ export function CategoryTable({ columns, data }: any) {
                   className='group/row cursor-pointer'
                   onClick={() => {
                     navigate({
-                      to: `/categories/${row?.original?.uuid}/subCategory`,
+                      to: `/categories/${row?.original?.uuid}`,
                     })
                   }}
                 >

@@ -44,7 +44,6 @@ export default function PostDetailsDrawer({ row }: any) {
   const [loading, setLoading] = useState<any>('')
   const updateStatus: any = useUpdateStatus()
   const { refetch }: any = useGetPosts({})
-
   const onUpdateStatus = (status: any) => {
     setLoading(status)
     updateStatus
@@ -105,7 +104,7 @@ export default function PostDetailsDrawer({ row }: any) {
                       Specifications
                     </h3>
                     <ul className='grid grid-cols-2 gap-2 text-sm'>
-                      {row?.original?.properties.map((prop: any) => (
+                      {row?.original?.properties?.map((prop: any) => (
                         <li
                           key={prop.name}
                           className='flex justify-between rounded-md bg-gray-100 p-2 text-gray-700'

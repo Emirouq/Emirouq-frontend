@@ -24,7 +24,14 @@ export const columns: any = () => {
       accessorKey: 'category',
       header: 'Category',
       cell: ({ row }: any) => {
-        return <LongText className=''>{row?.original?.category}</LongText>
+        return (
+          <div className='flex flex-col'>
+            <span>{row?.original?.categoryDetails?.title || 'N/A'}</span>
+            <span className='text-xs text-gray-400'>
+              {row?.original?.subCategoryDetails?.title || ''}
+            </span>
+          </div>
+        )
       },
     },
 
