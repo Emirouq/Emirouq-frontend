@@ -317,8 +317,8 @@ const AuthenticatedUserPostsPostDetailIndexLazyRoute =
 
 const AuthenticatedCategoriesSubCategoryIndexLazyRoute =
   AuthenticatedCategoriesSubCategoryIndexLazyImport.update({
-    id: '/categories/subCategory/',
-    path: '/categories/subCategory/',
+    id: '/categories/$id/subCategory/',
+    path: '/categories/$id/subCategory/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any).lazy(() =>
     import('./routes/_authenticated/categories/subCategory/index.lazy').then(
