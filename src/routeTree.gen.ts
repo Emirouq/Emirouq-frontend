@@ -18,7 +18,7 @@ import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authOtpImport } from './routes/(auth)/otp'
 import { Route as auth500Import } from './routes/(auth)/500'
-import { Route as AuthenticatedCategoriesIdImport } from './routes/_a./routes/_authenticated/categories/$id
+import { Route as AuthenticatedCategoriesIdImport } from './routes/_authenticated/categories/$id'
 
 // Create Virtual Routes
 

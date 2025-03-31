@@ -27,7 +27,7 @@ export const columns: any = [
   {
     accessorKey: 'firstName',
     header: ({ column }: any) => (
-      <DataTableColumnHeader column={column} title='Email' />
+      <DataTableColumnHeader column={column} title='Full Name' />
     ),
     cell: ({ row }: any) => (
       <div>
