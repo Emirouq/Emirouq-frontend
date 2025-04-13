@@ -14,7 +14,6 @@ import { PlansTable } from './components/plans-table'
 const SubscriptionPlans = () => {
   const [open, setOpen] = useState(false)
   const [editId, setEditId] = useState()
-  const [keyword, setKeyword] = useState('')
   //  const { data, refetch }: any = useGetSubscriptionPlans({ query: { keyword } })
 
   const formSchema = z.object({
@@ -105,9 +104,9 @@ const SubscriptionPlans = () => {
           <div className='flex gap-x-2'>
             <Input
               placeholder='Search categories...'
-              onChange={(e) => {
-                // debounceSearch(e.target.value)
-              }}
+              // onChange={(e) => {
+              // debounceSearch(e.target.value)
+              // }}
               className=''
             />
             <AddSubscriptionPlan

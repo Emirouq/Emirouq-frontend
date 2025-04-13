@@ -32,7 +32,7 @@ export const columns: any = () => {
       header: () => {
         return <div className='flex items-center justify-start'>Action</div>
       },
-      cell: ({ row }: any) => (
+      cell: () => (
         <div className='relative flex gap-2'>
           <div className='custom-popconfirm'>
             <span
