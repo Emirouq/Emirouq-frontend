@@ -73,6 +73,11 @@ export const sidebarData: SidebarData = {
           url: '/userPosts',
           icon: IconGhost,
         },
+        {
+          title: 'Subscription Plans',
+          url: '/subscription-plans',
+          icon: IconGhost,
+        },
       ],
     },
     // {

@@ -17,7 +17,7 @@ const tabs = [
   },
   {
     label: 'Active',
-    value: 'approved',
+    value: 'active',
   },
   {
     label: 'Inactive',

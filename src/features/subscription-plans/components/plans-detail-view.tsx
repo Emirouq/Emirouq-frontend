@@ -126,10 +126,10 @@ export default function PostDetailsDrawer({ row }: any) {
                         variant='default'
                         className='w-full'
                         onClick={() => {
-                          onUpdateStatus('active')
+                          onUpdateStatus('approved')
                         }}
                       >
-                        {loading === 'active' && <Spinner />}
+                        {loading === 'approved' && <Spinner />}
                         Approve
                       </Button>
                       <Dialog>

@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import { MdDeleteOutline } from 'react-icons/md'
 import LongText from '@/components/long-text'
-import PostDetailsDrawer from './post-detail-view'
 
 export const columns: any = () => {
   return [
@@ -20,46 +19,7 @@ export const columns: any = () => {
         return <LongText className=''>{row?.original?.title}</LongText>
       },
     },
-    {
-      accessorKey: 'category',
-      header: 'Category',
-      cell: ({ row }: any) => {
-        return (
-          <div className='flex flex-col'>
-            <span>{row?.original?.category?.title || 'N/A'}</span>
-            <span className='text-xs text-gray-400'>
-              {/* {row?.original?.category?.title || ''} */}
-            </span>
-          </div>
-        )
-      },
-    },
 
-    {
-      accessorKey: 'description',
-      header: 'Description',
-      cell: ({ row }: any) => {
-        return (
-          <p
-            className='line-clamp-2 max-w-[200px]'
-            title={row?.original?.description || 'N/A'}
-          >
-            {row?.original?.description || 'N/A'}
-          </p>
-        )
-      },
-    },
-    {
-      accessorKey: 'price',
-      header: 'Price',
-      cell: ({ row }: any) => {
-        return <LongText className=''>${row?.original?.price}</LongText>
-      },
-    },
-    {
-      accessorKey: 'location',
-      header: 'Location',
-    },
     {
       accessorKey: 'createdAt',
       header: 'Posted On',
@@ -83,7 +43,7 @@ export const columns: any = () => {
               <MdDeleteOutline className='cursor-pointer text-lg text-red-500' />
             </span>
           </div>
-          <PostDetailsDrawer row={row} />
+          {/* <PostDetailsDrawer row={row} /> */}
         </div>
       ),
       footer: (props: any) => props.column.id,

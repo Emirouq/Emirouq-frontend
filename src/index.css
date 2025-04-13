@@ -154,3 +154,6 @@
     background-position: right;
   }
 }
+.react-select__control {
+  border-color: #d1d5db !important; /* Tailwind's gray-300 */
+}

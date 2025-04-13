@@ -44,6 +44,9 @@ const AuthenticatedUserPostsIndexLazyImport = createFileRoute(
 const AuthenticatedTasksIndexLazyImport = createFileRoute(
   '/_authenticated/tasks/',
 )()
+const AuthenticatedSubscriptionPlansIndexLazyImport = createFileRoute(
+  '/_authenticated/subscription-plans/',
+)()
 const AuthenticatedSettingsIndexLazyImport = createFileRoute(
   '/_authenticated/settings/',
 )()
@@ -206,6 +209,17 @@ const AuthenticatedTasksIndexLazyRoute =
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any).lazy(() =>
     import('./routes/_authenticated/tasks/index.lazy').then((d) => d.Route),
+  )
+
+const AuthenticatedSubscriptionPlansIndexLazyRoute =
+  AuthenticatedSubscriptionPlansIndexLazyImport.update({
+    id: '/subscription-plans/',
+    path: '/subscription-plans/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/subscription-plans/index.lazy').then(
+      (d) => d.Route,
+    ),
   )
 
 const AuthenticatedSettingsIndexLazyRoute =
@@ -491,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexLazyImport
       parentRoute: typeof AuthenticatedSettingsRouteLazyImport
     }
+    '/_authenticated/subscription-plans/': {
+      id: '/_authenticated/subscription-plans/'
+      path: '/subscription-plans'
+      fullPath: '/subscription-plans'
+      preLoaderRoute: typeof AuthenticatedSubscriptionPlansIndexLazyImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/tasks/': {
       id: '/_authenticated/tasks/'
       path: '/tasks'
@@ -558,6 +579,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCategoriesIndexLazyRoute: typeof AuthenticatedCategoriesIndexLazyRoute
   AuthenticatedChatsIndexLazyRoute: typeof AuthenticatedChatsIndexLazyRoute
   AuthenticatedHelpCenterIndexLazyRoute: typeof AuthenticatedHelpCenterIndexLazyRoute
+  AuthenticatedSubscriptionPlansIndexLazyRoute: typeof AuthenticatedSubscriptionPlansIndexLazyRoute
   AuthenticatedTasksIndexLazyRoute: typeof AuthenticatedTasksIndexLazyRoute
   AuthenticatedUserPostsIndexLazyRoute: typeof AuthenticatedUserPostsIndexLazyRoute
   AuthenticatedUsersIndexLazyRoute: typeof AuthenticatedUsersIndexLazyRoute
@@ -573,6 +595,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCategoriesIndexLazyRoute: AuthenticatedCategoriesIndexLazyRoute,
   AuthenticatedChatsIndexLazyRoute: AuthenticatedChatsIndexLazyRoute,
   AuthenticatedHelpCenterIndexLazyRoute: AuthenticatedHelpCenterIndexLazyRoute,
+  AuthenticatedSubscriptionPlansIndexLazyRoute:
+    AuthenticatedSubscriptionPlansIndexLazyRoute,
   AuthenticatedTasksIndexLazyRoute: AuthenticatedTasksIndexLazyRoute,
   AuthenticatedUserPostsIndexLazyRoute: AuthenticatedUserPostsIndexLazyRoute,
   AuthenticatedUsersIndexLazyRoute: AuthenticatedUsersIndexLazyRoute,
@@ -607,6 +631,7 @@ export interface FileRoutesByFullPath {
   '/chats': typeof AuthenticatedChatsIndexLazyRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexLazyRoute
   '/settings/': typeof AuthenticatedSettingsIndexLazyRoute
+  '/subscription-plans': typeof AuthenticatedSubscriptionPlansIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/userPosts': typeof AuthenticatedUserPostsIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
@@ -635,6 +660,7 @@ export interface FileRoutesByTo {
   '/chats': typeof AuthenticatedChatsIndexLazyRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexLazyRoute
   '/settings': typeof AuthenticatedSettingsIndexLazyRoute
+  '/subscription-plans': typeof AuthenticatedSubscriptionPlansIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/userPosts': typeof AuthenticatedUserPostsIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
@@ -667,6 +693,7 @@ export interface FileRoutesById {
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexLazyRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexLazyRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexLazyRoute
+  '/_authenticated/subscription-plans/': typeof AuthenticatedSubscriptionPlansIndexLazyRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexLazyRoute
   '/_authenticated/userPosts/': typeof AuthenticatedUserPostsIndexLazyRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexLazyRoute
@@ -699,6 +726,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/help-center'
     | '/settings/'
+    | '/subscription-plans'
     | '/tasks'
     | '/userPosts'
     | '/users'
@@ -726,6 +754,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/help-center'
     | '/settings'
+    | '/subscription-plans'
     | '/tasks'
     | '/userPosts'
     | '/users'
@@ -756,6 +785,7 @@ export interface FileRouteTypes {
     | '/_authenticated/chats/'
     | '/_authenticated/help-center/'
     | '/_authenticated/settings/'
+    | '/_authenticated/subscription-plans/'
     | '/_authenticated/tasks/'
     | '/_authenticated/userPosts/'
     | '/_authenticated/users/'
@@ -827,6 +857,7 @@ export const routeTree = rootRoute
         "/_authenticated/categories/",
         "/_authenticated/chats/",
         "/_authenticated/help-center/",
+        "/_authenticated/subscription-plans/",
         "/_authenticated/tasks/",
         "/_authenticated/userPosts/",
         "/_authenticated/users/",
@@ -920,6 +951,10 @@ export const routeTree = rootRoute
     "/_authenticated/settings/": {
       "filePath": "_authenticated/settings/index.lazy.tsx",
       "parent": "/_authenticated/settings"
+    },
+    "/_authenticated/subscription-plans/": {
+      "filePath": "_authenticated/subscription-plans/index.lazy.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/tasks/": {
       "filePath": "_authenticated/tasks/index.lazy.tsx",
