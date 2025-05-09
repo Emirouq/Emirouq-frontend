@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useGetSubscriptionPlans } from '@/hooks/Stripe/query'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -14,6 +15,10 @@ import { PlansTable } from './components/plans-table'
 const SubscriptionPlans = () => {
   const [open, setOpen] = useState(false)
   const [editId, setEditId] = useState()
+  const { data: subscriptionPlans, refetch }: any = useGetSubscriptionPlans({
+    query: {},
+  })
+
   //  const { data, refetch }: any = useGetSubscriptionPlans({ query: { keyword } })
 
   const formSchema = z.object({
@@ -115,12 +120,12 @@ const SubscriptionPlans = () => {
               setEditId={setEditId}
               editId={editId}
               form={form}
-              // refetch={refetch}
+              refetch={refetch}
             />
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-          <PlansTable data={[]} columns={columns()} />
+          <PlansTable data={subscriptionPlans} columns={columns()} />
         </div>
       </Main>
       {/* <UsersDialogs /> */}

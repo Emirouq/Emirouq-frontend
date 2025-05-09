@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import {
   addSubCategory,
   createCategoryService,
+  updateCategoryService,
   updateSubCategory,
 } from '@/utils/apiUtils/services/category'
 
@@ -16,6 +17,11 @@ export const useCreateSubCategory = () => {
   })
 }
 export const useUpdateCategory = () => {
+  return useMutation({
+    mutationFn: (payload: any) => updateCategoryService(payload),
+  })
+}
+export const useUpdateSubCategory = () => {
   return useMutation({
     mutationFn: (payload: any) => updateSubCategory(payload),
   })

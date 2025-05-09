@@ -8,7 +8,13 @@ const stripe= {
       uri: '/stripe/create-plan',
     },
   },
- 
+  getPlans: {
+    v1: {
+      ...defaults.methods.GET,
+      ...defaults.versions.v2,
+      uri: '/stripe/plan-list',
+    },
+  }, 
 }
 
 export default stripe

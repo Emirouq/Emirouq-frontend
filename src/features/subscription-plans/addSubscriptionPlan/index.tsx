@@ -39,6 +39,7 @@ const AddSubscriptionPlan = ({ open, setOpen, editId, form, refetch }: any) => {
     const body = {
       ...data,
     }
+    console.log('body', body)
     // if (editId) {
     //   updateCategory
     //     ?.mutateAsync({ body: formData, pathParams: { id: editId } })
@@ -77,7 +78,8 @@ const AddSubscriptionPlan = ({ open, setOpen, editId, form, refetch }: any) => {
           setOpen(false)
           refetch()
         },
-        onError: () => {
+        onError: (err) => {
+          console.log('err', err)
           toast({
             title: 'Error',
             description: 'Failed to add plan',
@@ -303,6 +305,40 @@ const AddSubscriptionPlan = ({ open, setOpen, editId, form, refetch }: any) => {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                name='categories'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className='mb-4'>
+                    <FormLabel className='text-gray-800'>Categories</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        field={field}
+                        data={
+                          categories?.data?.map((ite: any) => {
+                            return {
+                              label: ite?.title,
+                              value: ite?.uuid,
+                            }
+                          }) || []
+                        }
+                        value={
+                          categories?.data
+                            ?.filter((option: any) =>
+                              field.value?.includes(option.uuid)
+                            )
+                            .map((option: any) => ({
+                              label: option.title,
+                              value: option.uuid,
+                            })) || []
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className='mb-4 grid grid-cols-2 gap-3'>
                 {/* Is Verified Badge */}
                 <FormField
@@ -364,40 +400,6 @@ const AddSubscriptionPlan = ({ open, setOpen, editId, form, refetch }: any) => {
                   )}
                 />
               </div>
-              <FormField
-                name='categories'
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem className='mb-4'>
-                    <FormLabel className='text-gray-800'>Categories</FormLabel>
-                    <FormControl>
-                      <MultiSelect
-                        field={field}
-                        data={
-                          categories?.data?.map((ite: any) => {
-                            return {
-                              label: ite?.title,
-                              value: ite?.uuid,
-                            }
-                          }) || []
-                        }
-                        value={
-                          categories?.data
-                            ?.filter((option: any) =>
-                              field.value?.includes(option.uuid)
-                            )
-                            .map((option: any) => ({
-                              label: option.title,
-                              value: option.uuid,
-                            })) || []
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <DialogFooter>
                 <Button
                   className='w-full'

@@ -55,7 +55,7 @@ const AddCategory = ({
         ?.then(() => {
           toast({
             title: 'Success',
-            description: 'Category updted successfully!',
+            description: 'Category updated successfully!',
             className: 'bg-orange-500 text-white',
           })
           setOpen(false)

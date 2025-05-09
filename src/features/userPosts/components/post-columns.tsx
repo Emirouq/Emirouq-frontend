@@ -59,6 +59,7 @@ export const columns: any = () => {
     {
       accessorKey: 'location',
       header: 'Location',
+      cell: ({ row }: any) => <div>{row?.original?.location?.name}</div>,
     },
     {
       accessorKey: 'createdAt',

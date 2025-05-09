@@ -96,7 +96,8 @@ export default function PostDetailsDrawer({ row }: any) {
                   </div>
 
                   <div className='text-sm text-gray-600'>
-                    📍 {row?.original?.location} - {row?.original?.timePeriod}
+                    📍 {row?.original?.location?.name} -{' '}
+                    {row?.original?.timePeriod}
                   </div>
 
                   <div className='mt-2'>
