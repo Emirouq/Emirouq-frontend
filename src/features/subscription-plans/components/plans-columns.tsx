@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-import { MdDeleteOutline } from 'react-icons/md'
 import LongText from '@/components/long-text'
 
 export const columns: any = () => {
