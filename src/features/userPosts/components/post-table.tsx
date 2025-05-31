@@ -30,26 +30,24 @@ declare module '@tanstack/react-table' {
   }
 }
 
-export function PostTable({ columns, data }: any) {
+export function PostTable({
+  columns,
+  data,
+  startIndex,
+  setStartIndex,
+  totalCount,
+  currentPage,
+  setCurrentPage,
+}: any) {
   const [_____, setRowSelection] = useState({})
   const [____, setColumnVisibility] = useState<VisibilityState>({})
   const [___, setColumnFilters] = useState<ColumnFiltersState>([])
   const [__, setSorting] = useState<SortingState>([])
-  const [startIndex, setStartIndex] = useState<number>(0)
-  const [totalCount] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState(0)
   const [_, setPrev] = useState<Number | any>()
 
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),
     columns: columns || [],
-    // state: {
-    //   sorting,
-    //   columnVisibility,
-    //   rowSelection,
-    //   columnFilters,
-    // },
-    // enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -61,35 +59,7 @@ export function PostTable({ columns, data }: any) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-  //   <Accordion type='single' className='border-none' collapsible>
-  //   <AccordionItem value='item-1'>
-  //     <AccordionTrigger>
-  //       {' '}
-  //       <TableRow
-  //         key={row.id}
-  //         data-state={row.getIsSelected() && 'selected'}
-  //         className='group/row'
-  //       >
-  //         {row.getVisibleCells().map((cell) => (
-  //           <TableCell
-  //             key={cell.id}
-  //             className={
-  //               cell.column.columnDef.meta?.className ?? ''
-  //             }
-  //           >
-  //             {flexRender(
-  //               cell.column.columnDef.cell,
-  //               cell.getContext()
-  //             )}
-  //           </TableCell>
-  //         ))}
-  //       </TableRow>
-  //     </AccordionTrigger>
-  //     <AccordionContent>
-  //       Yes. It adheres to the WAI-ARIA design pattern.
-  //     </AccordionContent>
-  //   </AccordionItem>
-  // </Accordion>
+
   return (
     <div className='space-y-4'>
       <div className='rounded-md border'>

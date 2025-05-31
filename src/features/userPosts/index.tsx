@@ -31,9 +31,16 @@ const tabs = [
 
 export default function UserPosts() {
   const [activeTab, setActiveTab] = useState('all')
+  const [startIndex, setStartIndex] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState(0)
   const { data, refetch: refetchPosts } = useGetPosts({
-    query: { status: activeTab === 'all' ? '' : activeTab },
+    query: {
+      status: activeTab === 'all' ? '' : activeTab,
+      start: startIndex,
+      // limit: currentPage,
+    },
   })
+  const [totalCount, setTotalCount] = useState<number>(data?.count)
   const searchParams = useSearch({ from: '/_authenticated/userPosts/' })
   const navigate = useNavigate()
 
@@ -54,6 +61,10 @@ export default function UserPosts() {
       }),
     })
   }
+
+  useEffect(() => {
+    refetchPosts()
+  }, [startIndex, currentPage])
 
   return (
     <div>
@@ -82,7 +93,14 @@ export default function UserPosts() {
                 )
               })}
             </TabsList>
-            <PostTable data={data} columns={columns()} />
+            <PostTable
+              data={data}
+              columns={columns()}
+              startIndex={startIndex}
+              setStartIndex={setStartIndex}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </Tabs>
         </div>
       </Main>

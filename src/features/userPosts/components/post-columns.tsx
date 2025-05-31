@@ -9,7 +9,7 @@ export const columns: any = () => {
       accessorKey: 'Sr No.',
       header: 'Sr No.',
       cell: ({ row }: any) => {
-        return <LongText className=''>{row?.index + 1}</LongText>
+        return <LongText className='max-w-12'>{row?.index + 1}</LongText>
       },
     },
     ,
@@ -17,7 +17,11 @@ export const columns: any = () => {
       accessorKey: 'title',
       header: 'Title',
       cell: ({ row }: any) => {
-        return <LongText className=''>{row?.original?.title}</LongText>
+        return (
+          <LongText className='line-clamp-2 max-w-[200px]'>
+            {row?.original?.title}
+          </LongText>
+        )
       },
     },
     {
@@ -59,7 +63,11 @@ export const columns: any = () => {
     {
       accessorKey: 'location',
       header: 'Location',
-      cell: ({ row }: any) => <div>{row?.original?.location?.name}</div>,
+      cell: ({ row }: any) => (
+        <div className='line-clamp-1 max-w-[200px]'>
+          {row?.original?.location?.name}
+        </div>
+      ),
     },
     {
       accessorKey: 'createdAt',
