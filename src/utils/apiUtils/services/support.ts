@@ -8,3 +8,10 @@ export const getSupportTickets = async ({ query }: any) => {
     query,
   })
 }
+export const respondToTicket = async ({ body, pathParams }: any) => {
+  return callApi({
+    uriEndPoint: { ...support.respondToTicket.v1 } as ApiEndpoint,
+    body,
+    pathParams,
+  })
+}

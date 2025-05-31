@@ -8,6 +8,13 @@ const support = {
       uri: '/support/admin',
     },
   },
+  respondToTicket: {
+    v1: {
+      ...defaults.methods.PUT,
+      ...defaults.versions.v1,
+      uri: '/support/:id',
+    },
+  },
 }
 
 export default support
