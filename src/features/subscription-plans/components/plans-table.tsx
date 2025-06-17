@@ -22,6 +22,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import PaginationComponent from '@/components/custom/Pagination'
+import TablePagination from '@/components/custom/Pagination'
+import EmptyTable from '@/components/custom/emptyTable'
+import TableLoading from '@/components/custom/tableLoading'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,15 +33,19 @@ declare module '@tanstack/react-table' {
   }
 }
 
-export function PlansTable({ columns, data }: any) {
+export function PlansTable({
+  columns,
+  data,
+  isFetching,
+  viewPage,
+  setViewPage,
+  startIndex,
+  setStartIndex,
+}: any) {
   const [_____, setRowSelection] = useState({})
   const [____, setColumnVisibility] = useState<VisibilityState>({})
   const [___, setColumnFilters] = useState<ColumnFiltersState>([])
   const [__, setSorting] = useState<SortingState>([])
-  const [startIndex, setStartIndex] = useState<number>(0)
-  const [totalCount] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [_, setPrev] = useState<Number | any>()
 
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),
@@ -117,7 +124,9 @@ export function PlansTable({ columns, data }: any) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isFetching ? (
+              <TableLoading columns={columns} viewPage={5} />
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -127,6 +136,7 @@ export function PlansTable({ columns, data }: any) {
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
+                      style={{ height: 50 }}
                       className={cell.column.columnDef.meta?.className ?? ''}
                     >
                       {flexRender(
@@ -143,20 +153,19 @@ export function PlansTable({ columns, data }: any) {
                   colSpan={columns?.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  <EmptyTable msg='No Result Found' />
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <PaginationComponent
-        totalCount={totalCount}
-        setStartIndex={setStartIndex}
+      <TablePagination
+        totalCount={data?.count || data?.data?.length}
         startIndex={startIndex}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        setPrev={setPrev}
+        setStartIndex={setStartIndex}
+        viewPage={viewPage}
+        setViewPage={setViewPage}
       />
       {/* <DataTablePagination table={table} /> */}
     </div>

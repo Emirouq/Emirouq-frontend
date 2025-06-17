@@ -18,6 +18,7 @@ import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authOtpImport } from './routes/(auth)/otp'
 import { Route as auth500Import } from './routes/(auth)/500'
+import { Route as AuthenticatedCategoriesSubscriptionImport } from './routes/_authenticated/categories/subscription'
 import { Route as AuthenticatedCategoriesIdImport } from './routes/_authenticated/categories/$id'
 
 // Create Virtual Routes
@@ -328,6 +329,13 @@ const AuthenticatedSettingsAccountLazyRoute =
     ),
   )
 
+const AuthenticatedCategoriesSubscriptionRoute =
+  AuthenticatedCategoriesSubscriptionImport.update({
+    id: '/categories/subscription',
+    path: '/categories/subscription',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 const AuthenticatedCategoriesIdRoute = AuthenticatedCategoriesIdImport.update({
   id: '/categories/$id',
   path: '/categories/$id',
@@ -452,6 +460,13 @@ declare module '@tanstack/react-router' {
       path: '/categories/$id'
       fullPath: '/categories/$id'
       preLoaderRoute: typeof AuthenticatedCategoriesIdImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/categories/subscription': {
+      id: '/_authenticated/categories/subscription'
+      path: '/categories/subscription'
+      fullPath: '/categories/subscription'
+      preLoaderRoute: typeof AuthenticatedCategoriesSubscriptionImport
       parentRoute: typeof AuthenticatedRouteImport
     }
     '/_authenticated/settings/account': {
@@ -594,6 +609,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteLazyRoute: typeof AuthenticatedSettingsRouteLazyRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedCategoriesIdRoute: typeof AuthenticatedCategoriesIdRoute
+  AuthenticatedCategoriesSubscriptionRoute: typeof AuthenticatedCategoriesSubscriptionRoute
   AuthenticatedAppsIndexLazyRoute: typeof AuthenticatedAppsIndexLazyRoute
   AuthenticatedCategoriesIndexLazyRoute: typeof AuthenticatedCategoriesIndexLazyRoute
   AuthenticatedChatsIndexLazyRoute: typeof AuthenticatedChatsIndexLazyRoute
@@ -611,6 +627,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedSettingsRouteLazyRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedCategoriesIdRoute: AuthenticatedCategoriesIdRoute,
+  AuthenticatedCategoriesSubscriptionRoute:
+    AuthenticatedCategoriesSubscriptionRoute,
   AuthenticatedAppsIndexLazyRoute: AuthenticatedAppsIndexLazyRoute,
   AuthenticatedCategoriesIndexLazyRoute: AuthenticatedCategoriesIndexLazyRoute,
   AuthenticatedChatsIndexLazyRoute: AuthenticatedChatsIndexLazyRoute,
@@ -643,6 +661,7 @@ export interface FileRoutesByFullPath {
   '/503': typeof errors503LazyRoute
   '/': typeof AuthenticatedIndexRoute
   '/categories/$id': typeof AuthenticatedCategoriesIdRoute
+  '/categories/subscription': typeof AuthenticatedCategoriesSubscriptionRoute
   '/settings/account': typeof AuthenticatedSettingsAccountLazyRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceLazyRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayLazyRoute
@@ -673,6 +692,7 @@ export interface FileRoutesByTo {
   '/503': typeof errors503LazyRoute
   '/': typeof AuthenticatedIndexRoute
   '/categories/$id': typeof AuthenticatedCategoriesIdRoute
+  '/categories/subscription': typeof AuthenticatedCategoriesSubscriptionRoute
   '/settings/account': typeof AuthenticatedSettingsAccountLazyRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceLazyRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayLazyRoute
@@ -707,6 +727,7 @@ export interface FileRoutesById {
   '/(errors)/503': typeof errors503LazyRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/categories/$id': typeof AuthenticatedCategoriesIdRoute
+  '/_authenticated/categories/subscription': typeof AuthenticatedCategoriesSubscriptionRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountLazyRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceLazyRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayLazyRoute
@@ -741,6 +762,7 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/categories/$id'
+    | '/categories/subscription'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -770,6 +792,7 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/categories/$id'
+    | '/categories/subscription'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -802,6 +825,7 @@ export interface FileRouteTypes {
     | '/(errors)/503'
     | '/_authenticated/'
     | '/_authenticated/categories/$id'
+    | '/_authenticated/categories/subscription'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -880,6 +904,7 @@ export const routeTree = rootRoute
         "/_authenticated/settings",
         "/_authenticated/",
         "/_authenticated/categories/$id",
+        "/_authenticated/categories/subscription",
         "/_authenticated/apps/",
         "/_authenticated/categories/",
         "/_authenticated/chats/",
@@ -942,6 +967,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/categories/$id": {
       "filePath": "_authenticated/categories/$id.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/categories/subscription": {
+      "filePath": "_authenticated/categories/subscription.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/settings/account": {

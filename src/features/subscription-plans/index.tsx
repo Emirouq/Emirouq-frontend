@@ -1,25 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { debounce } from 'lodash'
 import { useGetSubscriptionPlans } from '@/hooks/Stripe/query'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import AddSubscriptionPlan from './addSubscriptionPlan'
 import { columns } from './components/plans-columns'
 import { PlansTable } from './components/plans-table'
 
 const SubscriptionPlans = () => {
   const [open, setOpen] = useState(false)
   const [editId, setEditId] = useState()
-  const { data: subscriptionPlans, refetch }: any = useGetSubscriptionPlans({
-    query: {},
+  const [keyword, setKeyword] = useState('')
+  const [startIndex, setStartIndex] = useState<number>(1)
+  const [viewPage, setViewPage] = useState(10)
+
+  const {
+    data: subscriptionPlans,
+    refetch,
+    isFetching,
+  }: any = useGetSubscriptionPlans({
+    query: { keyword, page: startIndex, limit: viewPage },
   })
 
-  //  const { data, refetch }: any = useGetSubscriptionPlans({ query: { keyword } })
+  const action = (keyword: any) => {
+    setKeyword(keyword)
+  }
+  const debounceSearch = debounce(action, 500)
+
+  useEffect(() => {
+    refetch()
+  }, [keyword, startIndex, viewPage])
 
   const formSchema = z.object({
     name: z
@@ -97,7 +112,7 @@ const SubscriptionPlans = () => {
         </div>
       </Header>
       <Main>
-        <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
+        <div className='mb-2 flex-col flex-wrap items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
               Subscription Plans
@@ -108,24 +123,33 @@ const SubscriptionPlans = () => {
           </div>
           <div className='flex gap-x-2'>
             <Input
-              placeholder='Search categories...'
-              // onChange={(e) => {
-              // debounceSearch(e.target.value)
-              // }}
+              placeholder='Search plans...'
+              onChange={(e) => {
+                debounceSearch(e.target.value)
+              }}
               className=''
             />
-            <AddSubscriptionPlan
+            {/* <AddSubscriptionPlan
               open={open}
               setOpen={setOpen}
               setEditId={setEditId}
               editId={editId}
               form={form}
               refetch={refetch}
-            />
+            /> */}
           </div>
         </div>
+
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-          <PlansTable data={subscriptionPlans} columns={columns()} />
+          <PlansTable
+            data={subscriptionPlans}
+            columns={columns()}
+            isFetching={isFetching}
+            startIndex={startIndex}
+            viewPage={viewPage}
+            setViewPage={setViewPage}
+            setStartIndex={setStartIndex}
+          />
         </div>
       </Main>
       {/* <UsersDialogs /> */}

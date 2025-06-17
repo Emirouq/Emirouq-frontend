@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-const CustomDropdown = () => {
+const CustomDropdown = ({ handleDelete, handleEdit }: any) => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -23,14 +23,14 @@ const CustomDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem onClick={() => {}}>
+        <DropdownMenuItem onClick={handleEdit}>
           Edit
           <DropdownMenuShortcut>
             <IconEdit size={16} />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => {}} className='!text-red-500'>
+        <DropdownMenuItem onClick={handleDelete} className='!text-red-500'>
           Delete
           <DropdownMenuShortcut>
             <IconTrash size={16} />

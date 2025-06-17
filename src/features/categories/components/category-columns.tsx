@@ -1,4 +1,5 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { useNavigate } from '@tanstack/react-router'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import dayjs from 'dayjs'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -19,6 +20,7 @@ export const columns: any = ({
   setTitle,
   setLogo,
 }: any) => {
+  const navigate = useNavigate()
   return [
     {
       accessorKey: 'Sr No.',
@@ -91,6 +93,29 @@ export const columns: any = ({
                   <IconEdit size={16} />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e?.stopPropagation()
+
+                  navigate({
+                    to: '/categories/subscription',
+                    search: {
+                      subId: row?.original?.uuid,
+                      title: row?.original?.title,
+                    },
+                  })
+
+                  setEditId(row?.original?.uuid)
+                  setTitle(row?.original?.title)
+                }}
+              >
+                Manage Subscription
+                <DropdownMenuShortcut>
+                  <IconEdit size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => {}} className='!text-red-500'>
                 Delete
