@@ -1,7 +1,9 @@
 //@ts-nocheck
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearch } from '@tanstack/react-router'
+import { debounce } from 'lodash'
 import { useGetPosts } from '@/hooks/Post/query'
+import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -31,13 +33,19 @@ const tabs = [
 
 export default function UserPosts() {
   const [activeTab, setActiveTab] = useState('all')
-  const [startIndex, setStartIndex] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState(0)
-  const { data, refetch: refetchPosts } = useGetPosts({
+  const [keyword, setKeyword] = useState('')
+  const [startIndex, setStartIndex] = useState<number>(1)
+  const [viewPage, setViewPage] = useState(10)
+  const {
+    data,
+    refetch: refetchPosts,
+    isFetching,
+  } = useGetPosts({
     query: {
       status: activeTab === 'all' ? '' : activeTab,
       start: startIndex,
-      // limit: currentPage,
+      limit: viewPage,
+      keyword,
     },
   })
   const [totalCount, setTotalCount] = useState<number>(data?.count)
@@ -64,7 +72,12 @@ export default function UserPosts() {
 
   useEffect(() => {
     refetchPosts()
-  }, [startIndex, currentPage])
+  }, [startIndex, viewPage, keyword])
+
+  const action = (keyword: any) => {
+    setKeyword(keyword)
+  }
+  const debounceSearch = debounce(action, 500)
 
   return (
     <div>
@@ -76,10 +89,19 @@ export default function UserPosts() {
       </Header>
 
       <Main>
-        <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
+        <div className='mb-2 flex-col flex-wrap items-center justify-between space-y-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>Posts</h2>
             <p className='text-muted-foreground'>Manage your posts here.</p>
+          </div>
+          <div className='flex gap-x-2'>
+            <Input
+              placeholder='Search post...'
+              onChange={(e) => {
+                debounceSearch(e.target.value)
+              }}
+              className=''
+            />
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
@@ -98,8 +120,9 @@ export default function UserPosts() {
               columns={columns()}
               startIndex={startIndex}
               setStartIndex={setStartIndex}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              isFetching={isFetching}
+              viewPage={viewPage}
+              setViewPage={setViewPage}
             />
           </Tabs>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -22,6 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import TablePagination from '@/components/custom/Pagination'
+import EmptyTable from '@/components/custom/emptyTable'
+import TableLoading from '@/components/custom/tableLoading'
 import { User } from '../data/schema'
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
@@ -33,19 +36,22 @@ declare module '@tanstack/react-table' {
   }
 }
 
-interface DataTableProps {
-  columns: ColumnDef<User>[]
-  data: User[]
-}
-
-export function UsersTable({ columns, data }: DataTableProps) {
+export function UsersTable({
+  columns,
+  data,
+  isFetching,
+  viewPage,
+  setViewPage,
+  startIndex,
+  setStartIndex,
+}: any) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
-    data,
+    data: useMemo(() => data?.data || [], [data?.data]),
     columns,
     state: {
       sorting,
@@ -68,7 +74,6 @@ export function UsersTable({ columns, data }: DataTableProps) {
 
   return (
     <div className='space-y-4'>
-      <DataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
@@ -94,7 +99,9 @@ export function UsersTable({ columns, data }: DataTableProps) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isFetching ? (
+              <TableLoading columns={columns} viewPage={5} />
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -104,6 +111,7 @@ export function UsersTable({ columns, data }: DataTableProps) {
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
+                      style={{ height: 50 }}
                       className={cell.column.columnDef.meta?.className ?? ''}
                     >
                       {flexRender(
@@ -117,17 +125,24 @@ export function UsersTable({ columns, data }: DataTableProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns?.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  <EmptyTable msg='No Result Found' />
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <TablePagination
+        totalCount={data?.count}
+        startIndex={startIndex}
+        setStartIndex={setStartIndex}
+        viewPage={viewPage}
+        setViewPage={setViewPage}
+      />
+      {/* <DataTablePagination table={table} /> */}
     </div>
   )
 }

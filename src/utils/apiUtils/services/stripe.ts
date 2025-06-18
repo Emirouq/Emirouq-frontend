@@ -11,6 +11,17 @@ export const createPlan = async ({body}:any) => {
   })
 }
 
+export const updatePlan = async ({body, pathParams}:any) => {
+  return callApi({
+    uriEndPoint: { ...stripe.update.v1 } as ApiEndpoint,
+    body,
+    pathParams
+  })
+}
+
+
+
+
 export const getPlans = async ({query}:any) => {
   return callApi({
     uriEndPoint: { ...stripe.getPlans.v1 } as ApiEndpoint,

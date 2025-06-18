@@ -8,6 +8,13 @@ const stripe= {
       uri: '/stripe/create-plan',
     },
   },
+    update: {
+    v1: {
+      ...defaults.methods.PUT,
+      ...defaults.versions.v2,
+      uri: '/stripe/plan/:id',
+    },
+  },
   getPlans: {
     v1: {
       ...defaults.methods.GET,

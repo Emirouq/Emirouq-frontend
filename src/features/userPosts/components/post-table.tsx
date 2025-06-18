@@ -22,6 +22,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import PaginationComponent from '@/components/custom/Pagination'
+import TablePagination from '@/components/custom/Pagination'
+import EmptyTable from '@/components/custom/emptyTable'
+import TableLoading from '@/components/custom/tableLoading'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,11 +36,12 @@ declare module '@tanstack/react-table' {
 export function PostTable({
   columns,
   data,
+  totalCount,
+  isFetching,
+  viewPage,
+  setViewPage,
   startIndex,
   setStartIndex,
-  totalCount,
-  currentPage,
-  setCurrentPage,
 }: any) {
   const [_____, setRowSelection] = useState({})
   const [____, setColumnVisibility] = useState<VisibilityState>({})
@@ -87,7 +91,9 @@ export function PostTable({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isFetching ? (
+              <TableLoading columns={columns} viewPage={5} />
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -97,6 +103,7 @@ export function PostTable({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
+                      style={{ height: 50 }}
                       className={cell.column.columnDef.meta?.className ?? ''}
                     >
                       {flexRender(
@@ -113,20 +120,19 @@ export function PostTable({
                   colSpan={columns?.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  <EmptyTable msg='No Result Found' />
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <PaginationComponent
-        totalCount={totalCount}
-        setStartIndex={setStartIndex}
+      <TablePagination
+        totalCount={data?.count}
         startIndex={startIndex}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        setPrev={setPrev}
+        setStartIndex={setStartIndex}
+        viewPage={viewPage}
+        setViewPage={setViewPage}
       />
       {/* <DataTablePagination table={table} /> */}
     </div>

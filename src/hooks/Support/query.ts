@@ -3,7 +3,7 @@ import { getSupportTickets } from '@/utils/apiUtils/services/support'
 
 export const useGetSupport = (payload: any) => {
   return useQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', payload],
     queryFn: () => getSupportTickets(payload),
   })
 }

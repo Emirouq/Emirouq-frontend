@@ -16,11 +16,18 @@ export default function Categories() {
   const [title, setTitle] = useState('')
   const [logo, setLogo] = useState({ url: '', file: '' })
   const [keyword, setKeyword] = useState('')
-  const { data, refetch }: any = useGetCategories({ query: { keyword } })
+
+  const [startIndex, setStartIndex] = useState<number>(1)
+  const [totalCount] = useState<number>(0)
+  const [viewPage, setViewPage] = useState(10)
+
+  const { data, refetch, isFetching }: any = useGetCategories({
+    query: { keyword, page: startIndex, limit: viewPage },
+  })
 
   useEffect(() => {
     refetch()
-  }, [keyword])
+  }, [keyword, startIndex, viewPage])
 
   const action = (keyword: any) => {
     setKeyword(keyword)
@@ -67,6 +74,11 @@ export default function Categories() {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
           <CategoryTable
             data={data}
+            isFetching={isFetching}
+            startIndex={startIndex}
+            viewPage={viewPage}
+            setViewPage={setViewPage}
+            setStartIndex={setStartIndex}
             columns={columns({
               open,
               setOpen,

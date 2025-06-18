@@ -1,107 +1,153 @@
 import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
+import { Label } from '@/components/ui/label'
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
   PaginationPrevious,
+  PaginationNext,
+  PaginationLink,
+  PaginationEllipsis,
 } from '@/components/ui/pagination'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
-const PaginationComponent = ({
+interface TablePaginationProps {
+  startIndex: number
+  setStartIndex: (startIndex: number) => void
+  viewPage: number
+  setViewPage: (viewPage: number) => void
+  totalCount: number
+  visibility?: boolean
+  renderCurrentPage?: any
+}
+
+const TablePagination = ({
   startIndex,
-  currentPage,
-  totalCount,
   setStartIndex,
-  setCurrentPage,
-  setPrev,
-}: any) => {
-  const [page, setPage] = useState(0)
-  const [isPopover, setIsPopover] = useState(false)
+  viewPage,
+  setViewPage,
+  totalCount,
+  renderCurrentPage,
+}: TablePaginationProps) => {
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const options = [10, 25, 50, 100]
+
+  const totalPages = Math.ceil(totalCount / viewPage)
+
+  const handleChangePagination = (value: number) => {
+    setCurrentPage(value)
+    setStartIndex(viewPage * (value - 1) + 1)
+  }
+
+  const handlePageSizeChange = (value: string) => {
+    const pageSize = Number(value)
+    setViewPage(pageSize)
+    setCurrentPage(1)
+    setStartIndex(1)
+  }
+
   useEffect(() => {
-    //total count in page
-    const totalCountPage = 10
-    let totalPages = Math.floor(totalCount / totalCountPage)
-    const pageLeft = totalCount % totalCountPage
-
-    if (pageLeft > 0) {
-      totalPages++
+    if (renderCurrentPage) {
+      setCurrentPage(1)
     }
+  }, [renderCurrentPage])
 
-    setPage(totalPages)
-  }, [totalCount])
+  if (totalCount === 0) return null
+
   return (
-    <div>
-      <Pagination className='flex justify-end'>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              className='cursor-pointer'
-              onClick={() => {
-                // table.previousPage();
-                if (startIndex > 0) {
-                  setStartIndex(startIndex - 10)
-                  setCurrentPage(currentPage - 1)
-                }
-              }}
-            />
-          </PaginationItem>
-          {/* {Array.from({ length: page <= 3 ? page : 3 }).map((__, index) => ( */}
-          <PaginationItem>
-            <PaginationLink
-              className='cursor-pointer'
-              isActive={true}
-              onClick={() => {
-                // setStartIndex(index * 10);
-                // setCurrentPage(index);
-              }}
-            >
-              {currentPage + 1}
-            </PaginationLink>
-          </PaginationItem>
-          {/* ))} */}
+    <div
+      className={cn(
+        'flex w-full flex-col items-center justify-between md:flex-row'
+      )}
+    >
+      <div className='flex items-center space-x-2'>
+        <Label htmlFor='page-size' className='text-sm text-muted-foreground'>
+          Show
+        </Label>
+        <Select onValueChange={handlePageSizeChange} value={String(viewPage)}>
+          <SelectTrigger className='h-8 w-[80px]'>
+            <SelectValue placeholder='Select' />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map((opt) => (
+              <SelectItem key={opt} value={String(opt)}>
+                {opt}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              {page > 5 && (
-                <PaginationItem>
-                  <PaginationEllipsis
-                    onClick={() => {
-                      setIsPopover(!isPopover)
-                    }}
-                  />
-                </PaginationItem>
-              )}
-            </PopoverTrigger>
-            <PopoverContent className='w-80'>
-              <div className='grid gap-4'></div>
-            </PopoverContent>
-          </Popover>
-          <PaginationItem className='cursor-pointer'>
-            <PaginationNext
-              onClick={() => {
-                if (startIndex + 10 > totalCount ? false : true) {
-                  setStartIndex(startIndex + 10)
-                  setPrev(currentPage)
-                  setCurrentPage(currentPage + 1)
+      <div className='mt-4 flex items-center space-x-4 md:mt-0'>
+        <div className='shrink-0'>
+          <span className='text-sm text-muted-foreground'>
+            Showing {startIndex} to{' '}
+            {Math.min(startIndex + viewPage, totalCount)} of {totalCount}{' '}
+            records
+          </span>
+        </div>
+
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() =>
+                  currentPage > 1 && handleChangePagination(currentPage - 1)
                 }
-              }}
-            />
-          </PaginationItem>
-          <div>
-            <span className='pr-2 text-xs font-medium capitalize'>out of</span>
-            {Math.ceil(totalCount / 10)}
-          </div>
-        </PaginationContent>
-      </Pagination>
+              />
+            </PaginationItem>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (pageNum) => {
+                if (
+                  pageNum === 1 ||
+                  pageNum === totalPages ||
+                  Math.abs(pageNum - currentPage) <= 1
+                ) {
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        isActive={currentPage === pageNum}
+                        onClick={() => handleChangePagination(pageNum)}
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                } else if (
+                  (pageNum === currentPage - 2 && currentPage > 3) ||
+                  (pageNum === currentPage + 2 && currentPage < totalPages - 2)
+                ) {
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )
+                }
+                return null
+              }
+            )}
+
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  currentPage < totalPages &&
+                  handleChangePagination(currentPage + 1)
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   )
 }
 
-export default PaginationComponent
+export default TablePagination
