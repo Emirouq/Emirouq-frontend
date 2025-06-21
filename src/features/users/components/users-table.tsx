@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import {
-  ColumnDef,
   ColumnFiltersState,
   RowData,
   SortingState,
@@ -25,9 +24,6 @@ import {
 import TablePagination from '@/components/custom/Pagination'
 import EmptyTable from '@/components/custom/emptyTable'
 import TableLoading from '@/components/custom/tableLoading'
-import { User } from '../data/schema'
-import { DataTablePagination } from './data-table-pagination'
-import { DataTableToolbar } from './data-table-toolbar'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

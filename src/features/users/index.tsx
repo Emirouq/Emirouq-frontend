@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { debounce } from 'lodash'
-import { an } from 'node_modules/@faker-js/faker/dist/airline-CBNP41sR'
 import { useGetUsers } from '@/hooks/Users/query'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'

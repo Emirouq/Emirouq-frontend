@@ -18,15 +18,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-interface TablePaginationProps {
-  startIndex: number
-  setStartIndex: (startIndex: number) => void
-  viewPage: number
-  setViewPage: (viewPage: number) => void
-  totalCount: number
-  visibility?: boolean
-  renderCurrentPage?: any
-}
+// interface TablePaginationProps {
+//   startIndex: number
+//   setStartIndex: (startIndex: number) => void
+//   viewPage: number
+//   setViewPage: (viewPage: number) => void
+//   totalCount: number
+//   visibility?: boolean
+//   renderCurrentPage?: any
+//   setCurrentPage?: (currentPage: number) => void
+// }
 
 const TablePagination = ({
   startIndex,
@@ -35,7 +36,7 @@ const TablePagination = ({
   setViewPage,
   totalCount,
   renderCurrentPage,
-}: TablePaginationProps) => {
+}: any) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const options = [10, 25, 50, 100]
 

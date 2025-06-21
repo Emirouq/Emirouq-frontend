@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { debounce } from 'lodash'
 import { useGetSupport } from '@/hooks/Support/query'
 import { Input } from '@/components/ui/input'

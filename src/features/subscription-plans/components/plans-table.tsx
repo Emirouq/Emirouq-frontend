@@ -21,7 +21,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import PaginationComponent from '@/components/custom/Pagination'
 import TablePagination from '@/components/custom/Pagination'
 import EmptyTable from '@/components/custom/emptyTable'
 import TableLoading from '@/components/custom/tableLoading'

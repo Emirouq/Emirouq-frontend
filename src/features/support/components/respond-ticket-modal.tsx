@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useRespondTicket } from '@/hooks/Support/mutation'
 import { useGetSupport } from '@/hooks/Support/query'
 import { toast } from '@/hooks/use-toast'

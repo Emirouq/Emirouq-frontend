@@ -21,7 +21,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import PaginationComponent from '@/components/custom/Pagination'
 import TablePagination from '@/components/custom/Pagination'
 import TableLoading from '@/components/custom/tableLoading'
 
@@ -46,7 +45,7 @@ export function SupportTable({
   const [___, setColumnFilters] = useState<ColumnFiltersState>([])
   const [__, setSorting] = useState<SortingState>([])
 
-  const [_, setPrev] = useState<Number | any>()
+  const [_] = useState<Number | any>()
 
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),

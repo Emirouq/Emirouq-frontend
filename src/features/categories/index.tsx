@@ -18,7 +18,6 @@ export default function Categories() {
   const [keyword, setKeyword] = useState('')
 
   const [startIndex, setStartIndex] = useState<number>(1)
-  const [totalCount] = useState<number>(0)
   const [viewPage, setViewPage] = useState(10)
 
   const { data, refetch, isFetching }: any = useGetCategories({

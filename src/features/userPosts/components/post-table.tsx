@@ -21,7 +21,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import PaginationComponent from '@/components/custom/Pagination'
 import TablePagination from '@/components/custom/Pagination'
 import EmptyTable from '@/components/custom/emptyTable'
 import TableLoading from '@/components/custom/tableLoading'
@@ -36,7 +35,6 @@ declare module '@tanstack/react-table' {
 export function PostTable({
   columns,
   data,
-  totalCount,
   isFetching,
   viewPage,
   setViewPage,
@@ -47,7 +45,7 @@ export function PostTable({
   const [____, setColumnVisibility] = useState<VisibilityState>({})
   const [___, setColumnFilters] = useState<ColumnFiltersState>([])
   const [__, setSorting] = useState<SortingState>([])
-  const [_, setPrev] = useState<Number | any>()
+  const [_] = useState<Number | any>()
 
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),
