@@ -28,7 +28,7 @@ const tabs = [
 export default function Users() {
   const [activeTab, setActiveTab] = useState('frequent')
   const [keyword, setKeyword] = useState('')
-  const [startIndex, setStartIndex] = useState<number>(1)
+  const [startIndex, setStartIndex] = useState<number>(0)
   const [viewPage, setViewPage] = useState(10)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)

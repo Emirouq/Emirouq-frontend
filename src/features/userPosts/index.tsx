@@ -34,7 +34,7 @@ const tabs = [
 export default function UserPosts() {
   const [activeTab, setActiveTab] = useState('all')
   const [keyword, setKeyword] = useState('')
-  const [startIndex, setStartIndex] = useState<number>(1)
+  const [startIndex, setStartIndex] = useState<number>(0)
   const [viewPage, setViewPage] = useState(10)
   const {
     data,
