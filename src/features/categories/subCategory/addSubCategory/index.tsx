@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation } from '@tanstack/react-router'
+import { useLocation, useParams } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 import {
   useCreateSubCategory,
@@ -36,11 +36,11 @@ const AddSubCategory = ({
   const { mutate } = useCreateSubCategory()
   const updateSubCategory: any = useUpdateCategory()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const params: any = useLocation()
+  const { id }: any = useParams({ strict: false })
+
   const onSubmit = (values: any) => {
     setIsSubmitting(true)
     if (editId) {
-      console.log('editId', editId)
       updateSubCategory
         ?.mutateAsync({
           body: {
@@ -80,7 +80,7 @@ const AddSubCategory = ({
             properties,
           },
           pathParams: {
-            id: params?.search?.categoryId,
+            id,
           },
         },
         {

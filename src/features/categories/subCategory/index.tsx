@@ -20,17 +20,17 @@ export default function Subcategory() {
   const [editId, setEditId] = useState()
   const [_, setTitle] = useState('')
   const [properties, setProperties] = useState([''])
-  const { categoryId }: any = useParams({ strict: false })
+  const { id }: any = useParams({ strict: false })
   const [keyword, setKeyword] = useState('')
   const { data, refetch: refetchSubCategories }: any = useGetSubCategories({
-    pathParams: { id: categoryId },
+    pathParams: { id },
     query: { keyword },
   })
   useEffect(() => {
-    if (categoryId) {
+    if (id) {
       refetchSubCategories()
     }
-  }, [categoryId, keyword])
+  }, [id, keyword])
 
   const action = (keyword: any) => {
     setKeyword(keyword)
