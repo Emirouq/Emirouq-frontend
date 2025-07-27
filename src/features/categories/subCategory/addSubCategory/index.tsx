@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useParams } from '@tanstack/react-router'
+import { useParams } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 import {
   useCreateSubCategory,
