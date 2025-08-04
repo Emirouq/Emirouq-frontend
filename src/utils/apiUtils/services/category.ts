@@ -40,7 +40,7 @@ export const addSubCategory = async ({ body, pathParams }: any) => {
     pathParams,
   })
 }
-export const updateSubCategory = async ({ body, pathParams }: any) => {
+export const updateSubCategoryService = async ({ body, pathParams }: any) => {
   return callApi({
     uriEndPoint: { ...category.updateSubCategory.v1 } as ApiEndpoint,
     body,

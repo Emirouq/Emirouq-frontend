@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useParams } from '@tanstack/react-router'
-import { Plus } from 'lucide-react'
+import { Plus, Trash } from 'lucide-react'
 import {
   useCreateSubCategory,
-  useUpdateCategory,
+  useUpdateSubCategory,
 } from '@/hooks/Category/mutation'
 import { toast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
@@ -32,9 +32,10 @@ const AddSubCategory = ({
   setProperties,
   refetch,
   form,
+  setEditId,
 }: any) => {
   const { mutate } = useCreateSubCategory()
-  const updateSubCategory: any = useUpdateCategory()
+  const updateSubCategory: any = useUpdateSubCategory()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { id }: any = useParams({ strict: false })
 
@@ -109,7 +110,7 @@ const AddSubCategory = ({
       )
     }
   }
-  const handlePropertyChange = (index: any, value: any) => {
+  const handlePropertyChange = (index: number, value: string) => {
     const updatedProperties = [...properties]
     updatedProperties[index] = value
     setProperties(updatedProperties)
@@ -119,10 +120,24 @@ const AddSubCategory = ({
     setProperties([...properties, ''])
   }
 
+  const removePropertyField = (index: number) => {
+    const updatedProperties = [...properties]
+    updatedProperties.splice(index, 1)
+    setProperties(updatedProperties)
+  }
+
   return (
     <div>
       <Button onClick={() => setOpen(true)}>Add</Button>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={() => {
+          setOpen(!open)
+          setEditId()
+          setProperties([])
+          form.reset({ title: '' })
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{`${editId ? 'Edit' : 'Add'} Sub Category`}</DialogTitle>
@@ -149,11 +164,12 @@ const AddSubCategory = ({
                     </FormItem>
                   )}
                 />
+
                 <label className='my-2 block text-sm font-medium'>
                   Properties
                 </label>
                 <div className='space-y-2'>
-                  {properties.map((property: any, index: any) => (
+                  {properties.map((property: any, index: number) => (
                     <div key={index} className='flex items-center space-x-2'>
                       <Input
                         placeholder={`Property ${index + 1}`}
@@ -162,9 +178,17 @@ const AddSubCategory = ({
                           handlePropertyChange(index, e.target.value)
                         }
                       />
+                      <button
+                        type='button'
+                        onClick={() => removePropertyField(index)}
+                        className='text-red-500 hover:text-red-700'
+                      >
+                        <Trash className='h-4 w-4' />
+                      </button>
                     </div>
                   ))}
                 </div>
+
                 <Button
                   variant='outline'
                   className='mt-2 flex items-center'
@@ -174,6 +198,7 @@ const AddSubCategory = ({
                   <Plus className='mr-1 h-4 w-4' /> Add Property
                 </Button>
               </div>
+
               <DialogFooter>
                 <Button
                   className='w-full'

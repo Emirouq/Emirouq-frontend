@@ -3,7 +3,7 @@ import {
   addSubCategory,
   createCategoryService,
   updateCategoryService,
-  updateSubCategory,
+  updateSubCategoryService,
 } from '@/utils/apiUtils/services/category'
 
 export const useCreateCategory = () => {
@@ -23,6 +23,6 @@ export const useUpdateCategory = () => {
 }
 export const useUpdateSubCategory = () => {
   return useMutation({
-    mutationFn: (payload: any) => updateSubCategory(payload),
+    mutationFn: (payload: any) => updateSubCategoryService(payload),
   })
 }
