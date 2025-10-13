@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { debounce } from 'lodash'
 import { useGetCategories } from '@/hooks/Category/query'
 import { Input } from '@/components/ui/input'
@@ -21,12 +21,10 @@ export default function Categories() {
   const [viewPage, setViewPage] = useState(10)
 
   const { data, refetch, isFetching }: any = useGetCategories({
-    query: { keyword, page: startIndex, limit: viewPage },
+    keyword,
+    page: startIndex,
+    limit: viewPage,
   })
-
-  useEffect(() => {
-    refetch()
-  }, [keyword, startIndex, viewPage])
 
   const action = (keyword: any) => {
     setKeyword(keyword)

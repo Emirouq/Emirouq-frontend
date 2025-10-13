@@ -42,12 +42,12 @@ export const PlanSchema = z.object({
   uuid: z.string().optional(),
   name: z.string().min(1, 'Name is required'),
   amount: numericField,
-  currency: z.string().min(1, 'Currency is required'),
+  // currency: z.string().min(1, 'Currency is required'),
   interval: z.enum(['day', 'week', 'month', 'year']),
   interval_count: numericField,
   numberOfAds: optionalNumericField,
   featuredAdBoosts: optionalNumericField,
-  additionalBenefits: z.string().optional(),
+  additionalBenefits: z.any(),
   categories: z.array(z.string()).optional(),
   isVerifiedBadge: z.boolean(),
   prioritySupport: z.boolean(),
@@ -64,7 +64,7 @@ export const defaultPlan: any = {
   uuid: '',
   name: '',
   amount: '',
-  currency: '',
+  // currency: '',
   interval: 'month',
   interval_count: '',
   numberOfAds: '',
@@ -273,7 +273,7 @@ const AddSubscriptionPlan = () => {
                     </FormItem>
                   )}
                 />
-
+                {/* 
                 <FormField
                   name={`plans.${index}.currency`}
                   control={form.control}
@@ -286,7 +286,7 @@ const AddSubscriptionPlan = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <FormField
                   name={`plans.${index}.interval`}
@@ -424,19 +424,23 @@ const AddSubscriptionPlan = () => {
               </div>
 
               <div className='mt-4'>
-                <Button
-                  type='button'
-                  onClick={form.handleSubmit((data) =>
-                    onSubmitPlan(data, index)
-                  )}
-                  className='w-full'
-                >
-                  {submittingIndex === index
-                    ? 'Saving...'
-                    : form.getValues(`plans.${index}.uuid`)
-                      ? 'Update Plan'
-                      : 'Save Plan'}
-                </Button>
+                {form.getValues(`plans.${index}.uuid`) ? (
+                  <></>
+                ) : (
+                  <Button
+                    type='button'
+                    onClick={form.handleSubmit((data) =>
+                      onSubmitPlan(data, index)
+                    )}
+                    className='w-full'
+                  >
+                    {submittingIndex === index
+                      ? 'Saving...'
+                      : form.getValues(`plans.${index}.uuid`)
+                        ? 'Update Plan'
+                        : 'Save Plan'}
+                  </Button>
+                )}
               </div>
             </div>
           ))}

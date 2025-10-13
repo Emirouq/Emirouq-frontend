@@ -1,6 +1,5 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import dayjs from 'dayjs'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,12 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import LongText from '@/components/long-text'
 
-export const columns: any = ({
-  setOpen,
-  setEditId,
-  setProperties,
-  form,
-}: any) => {
+export const columns: any = ({ setOpen, setEditDetails }: any) => {
   return [
     {
       accessorKey: 'Sr No.',
@@ -39,20 +33,14 @@ export const columns: any = ({
       header: 'No. of Properties',
       cell: ({ row }: any) => (
         <div className='text-nowrap'>
-          {row?.original?.properties?.length > 4
-            ? `${row?.original?.properties?.slice(0, 4)?.join(', ')} ...`
-            : row?.original?.properties?.join(', ') || ''}
+          {row?.original?.properties?.length
+            ? row?.original?.properties
+                ?.map((item: any) => item?.label)
+                .join(', ')
+            : '--'}
         </div>
       ),
     },
-    {
-      accessorKey: 'createdAt',
-      header: 'Created At',
-      cell: ({ row }: any) => (
-        <div>{dayjs(row?.original?.createdAt).format('MMM-DD-YYYY')}</div>
-      ),
-    },
-
     {
       accessorKey: 'actions',
       header: () => {
@@ -78,10 +66,7 @@ export const columns: any = ({
                 onClick={(e) => {
                   e?.stopPropagation()
                   setOpen(true)
-                  setEditId(row?.original?.uuid)
-                  setProperties(row?.original?.properties)
-                  console.log('row?.original?.title', row?.original?.title)
-                  form.setValue('title', row?.original?.title)
+                  setEditDetails(row?.original)
                 }}
               >
                 Edit

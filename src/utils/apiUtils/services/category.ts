@@ -11,16 +11,17 @@ export const createCategoryService = async ({ body }: any) => {
     },
   })
 }
-export const getCategoriesService = async ({query}:any) => {
+export const getCategoriesService = async ({ query }: any) => {
   return callApi({
     uriEndPoint: { ...category.getCategories.v1 } as ApiEndpoint,
-    query
+    query,
   })
 }
-export const getSubCategories = async ({pathParams, query}:any) => {
+export const getSubCategories = async ({ pathParams, query }: any) => {
   return callApi({
     uriEndPoint: { ...category.getSubCategory.v1 } as ApiEndpoint,
-    pathParams, query
+    pathParams,
+    query,
   })
 }
 export const updateCategoryService = async ({ body, pathParams }: any) => {

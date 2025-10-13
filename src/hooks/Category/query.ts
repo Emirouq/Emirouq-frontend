@@ -1,15 +1,36 @@
 import { useQuery } from '@tanstack/react-query'
-import { getCategoriesService, getSubCategories } from '@/utils/apiUtils/services/category'
+import {
+  getCategoriesService,
+  getSubCategories,
+} from '@/utils/apiUtils/services/category'
 
-export const useGetCategories = (payload:any) => {
+export const useGetCategories = ({ keyword, page, limit }: any) => {
   return useQuery({
-    queryKey: ['categories'],
-    queryFn:()=> getCategoriesService(payload),
+    queryKey: ['categories', keyword, page, limit],
+    queryFn: () =>
+      getCategoriesService({
+        query: {
+          keyword,
+          page,
+          limit,
+        },
+      }),
   })
 }
-export const useGetSubCategories = (payload:any) => {
+export const useGetSubCategories = ({
+  categoryId,
+  keyword,
+}: {
+  categoryId: string
+  keyword: string
+}) => {
   return useQuery({
-    queryKey: ['subCategories'],
-    queryFn:()=> getSubCategories(payload),
+    queryKey: ['subCategories', categoryId, keyword],
+    queryFn: () =>
+      getSubCategories({
+        pathParams: { categoryId },
+        query: { keyword },
+      }),
+    enabled: !!categoryId,
   })
 }

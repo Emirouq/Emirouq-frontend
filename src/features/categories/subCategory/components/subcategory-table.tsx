@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import {
   ColumnFiltersState,
   RowData,
@@ -37,8 +38,6 @@ export function SubCategoryTable({ columns, data }: any) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [startIndex, setStartIndex] = useState<number>(0)
   const [totalCount] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [_, setPrev] = useState<Number | any>()
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),
     columns,
@@ -60,7 +59,7 @@ export function SubCategoryTable({ columns, data }: any) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-
+  const navigate: any = useNavigate()
   return (
     <div className='space-y-4'>
       <div className='rounded-md border'>
@@ -89,13 +88,21 @@ export function SubCategoryTable({ columns, data }: any) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row: any) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   className='group/row'
+                  onClick={() => {
+                    console.log(row.original)
+                    navigate({
+                      to: `/categories/${row.original.uuid}/attributes`,
+                      search: undefined, // optional
+                      state: { label: row.original.title },
+                    })
+                  }}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell: any) => (
                     <TableCell
                       key={cell.id}
                       className={cell.column.columnDef.meta?.className ?? ''}
@@ -125,9 +132,6 @@ export function SubCategoryTable({ columns, data }: any) {
         totalCount={totalCount}
         setStartIndex={setStartIndex}
         startIndex={startIndex}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        setPrev={setPrev}
       />
       {/* <DataTablePagination table={table} /> */}
     </div>

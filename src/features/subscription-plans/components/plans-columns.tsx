@@ -1,3 +1,4 @@
+import { toCurrency } from '@/utils/to-currency'
 import LongText from '@/components/long-text'
 
 export const columns: any = () => {
@@ -15,7 +16,6 @@ export const columns: any = () => {
         return <LongText className=''>{row?.index + 1}</LongText>
       },
     },
-    ,
     {
       accessorKey: 'name',
       header: 'Name',
@@ -27,7 +27,7 @@ export const columns: any = () => {
     {
       accessorKey: 'amount',
       header: 'Amount',
-      cell: ({ row }: any) => <div>${row?.original?.amount}</div>,
+      cell: ({ row }: any) => <div>{toCurrency(row?.original?.amount)}</div>,
     },
     {
       accessorKey: 'numberOfAds',

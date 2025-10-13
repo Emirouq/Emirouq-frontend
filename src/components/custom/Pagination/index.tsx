@@ -19,14 +19,13 @@ import {
 } from '@/components/ui/select'
 
 // interface TablePaginationProps {
-//   startIndex: number
-//   setStartIndex: (startIndex: number) => void
-//   viewPage: number
-//   setViewPage: (viewPage: number) => void
-//   totalCount: number
+//   startIndex?: number
+//   setStartIndex?: (startIndex: number) => void
+//   viewPage?: number
+//   setViewPage?: (viewPage: number) => void
+//   totalCount?: number
 //   visibility?: boolean
 //   renderCurrentPage?: any
-//   setCurrentPage?: (currentPage: number) => void
 // }
 
 const TablePagination = ({

@@ -33,24 +33,23 @@ const category = {
     v1: {
       ...defaults.methods.GET,
       ...defaults.versions.v1,
-      uri: '/category/subCategory/:id',
+      uri: '/category/subCategory/:categoryId',
     },
   },
   addSubCategory: {
     v1: {
       ...defaults.methods.POST,
       ...defaults.versions.v1,
-      uri: '/category/subCategory/:id',
+      uri: '/category/subCategory/:categoryId',
     },
   },
   updateSubCategory: {
     v1: {
       ...defaults.methods.PUT,
       ...defaults.versions.v1,
-      uri: '/category/subCategory/:id',
+      uri: '/category/subCategory/:categoryId/:subCategoryId',
     },
   },
- 
 }
 
 export default category

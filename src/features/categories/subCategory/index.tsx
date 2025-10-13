@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react'
-import * as z from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useParams } from '@tanstack/react-router'
 import { debounce } from 'lodash'
 import { useGetSubCategories } from '@/hooks/Category/query'
@@ -17,35 +14,17 @@ import { SubCategoryTable } from './components/subcategory-table'
 
 export default function Subcategory() {
   const [open, setOpen] = useState(false)
-  const [editId, setEditId] = useState()
-  const [_, setTitle] = useState('')
-  const [properties, setProperties] = useState([''])
-  const { id }: any = useParams({ strict: false })
+  const [editDetails, setEditDetails] = useState(null as any)
+  const { id: categoryId }: any = useParams({ strict: false })
   const [keyword, setKeyword] = useState('')
   const { data, refetch: refetchSubCategories }: any = useGetSubCategories({
-    pathParams: { id },
-    query: { keyword },
+    categoryId,
+    keyword,
   })
-  useEffect(() => {
-    if (id) {
-      refetchSubCategories()
-    }
-  }, [id, keyword])
-
   const action = (keyword: any) => {
     setKeyword(keyword)
   }
   const debounceSearch = debounce(action, 500)
-
-  const formSchema = z.object({
-    title: z.string({
-      required_error: 'Title is required',
-    }),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  })
 
   return (
     <div>
@@ -76,12 +55,8 @@ export default function Subcategory() {
             <AddSubCategory
               open={open}
               setOpen={setOpen}
-              setEditId={setEditId}
-              editId={editId}
+              editDetails={editDetails}
               refetch={refetchSubCategories}
-              properties={properties}
-              setProperties={setProperties}
-              form={form}
             />
           </div>
         </div>
@@ -91,11 +66,7 @@ export default function Subcategory() {
             columns={columns({
               open,
               setOpen,
-              editId,
-              setEditId,
-              setTitle,
-              setProperties,
-              form,
+              setEditDetails,
             })}
           />
         </div>
