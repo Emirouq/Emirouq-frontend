@@ -37,22 +37,26 @@ export default function Attributes() {
           <p className='text-muted-foreground'>Manage your attributes here</p>
         </div>
 
-        <div className='grid gap-5 md:grid-cols-2'>
+        <div className='grid gap-5 lg:grid-cols-2'>
           {data?.data?.map((attr: any) => {
             return (
               <div
                 key={attr.uuid}
-                className='flex w-full flex-col items-start gap-4 md:flex-row'
+                className='flex w-full flex-col items-start gap-4'
               >
-                <label className='font-semibold'>{attr.label}:</label>
-
                 <div className='flex flex-1 gap-2'>
-                  {attr.filterType === 'select' ? (
+                  {attr.filterType === 'select' ||
+                  attr.filterType === 'checkbox' ? (
                     <SelectField
                       attributeId={attr.uuid}
                       list={data?.data}
                       dependsOn={attr.dependsOn}
                       label={attr.label}
+                      parentId={
+                        data?.data?.find(
+                          (i: any) => i?.label === attr.dependsOn
+                        )?.uuid
+                      }
                     />
                   ) : (
                     <>--</>

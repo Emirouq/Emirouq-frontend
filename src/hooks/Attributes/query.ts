@@ -19,12 +19,34 @@ export const useGetAttributes = ({ subCategoryId, keyword }: any) =>
     enabled: !!subCategoryId,
   })
 
-export const useGetAttributeOptions = ({ attributeId, dependsOn }: any) =>
+// this is used when, i manually enter the model name, then i have to select brand this is called there
+export const useGetAttributeOptionsForParent = ({
+  parentId,
+  keyword = '',
+}: any) =>
+  useQuery({
+    queryKey: ['get-attribute-parent-options', parentId, keyword],
+    queryFn: () =>
+      getAttributeOptions({
+        query: { keyword },
+        pathParams: { attributeId: parentId },
+      }),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    enabled: !!parentId,
+  })
+
+export const useGetAttributeOptions = ({
+  attributeId,
+  dependsOn,
+  keyword = '',
+}: any) =>
   useInfiniteQuery({
-    queryKey: ['attributes-options', attributeId, dependsOn],
+    queryKey: ['attributes-options', attributeId, dependsOn, keyword],
     queryFn: ({ pageParam }) =>
       getAttributeOptions({
-        query: { start: pageParam, dependsOn },
+        query: { start: pageParam, dependsOn, keyword },
         pathParams: { attributeId },
       }),
     getNextPageParam: (lastPage: any, allPages: any) => {
@@ -41,6 +63,8 @@ export const useGetAttributeOptions = ({ attributeId, dependsOn }: any) =>
     refetchOnReconnect: false,
     enabled: !!attributeId,
   })
+
+// means parent Id is Bmw, here we will get bmw cars
 export const useGetParentAttributeOptions = ({ parentId }: any) =>
   useInfiniteQuery({
     queryKey: ['parent-attribute-options', parentId],

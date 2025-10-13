@@ -24,3 +24,23 @@ export const getParentAttributeOptions = async ({ query, pathParams }: any) => {
     pathParams,
   })
 }
+export const updateAttributeOptions = async ({ pathParams, body }: any) => {
+  return callApi({
+    uriEndPoint: { ...attributes.updateAttributeOptions.v1 } as ApiEndpoint,
+    pathParams,
+    body,
+  })
+}
+export const deleteAttributeOptions = async ({ pathParams }: any) => {
+  return callApi({
+    uriEndPoint: { ...attributes.deleteAttributeOptions.v1 } as ApiEndpoint,
+    pathParams,
+  })
+}
+export const addAttributeOptions = async ({ pathParams, body }: any) => {
+  return callApi({
+    uriEndPoint: { ...attributes.addAttributeOptions.v1 } as ApiEndpoint,
+    pathParams,
+    body,
+  })
+}

@@ -24,6 +24,27 @@ const attribute = {
       uri: `${prefix}/:parentId/options/children`,
     },
   },
+  updateAttributeOptions: {
+    v1: {
+      ...defaults.methods.PUT,
+      ...defaults.versions.v1,
+      uri: `${prefix}/update-attribute/:attributeId`,
+    },
+  },
+  deleteAttributeOptions: {
+    v1: {
+      ...defaults.methods.DELETE,
+      ...defaults.versions.v1,
+      uri: `${prefix}/delete-attribute/:attributeId`,
+    },
+  },
+  addAttributeOptions: {
+    v1: {
+      ...defaults.methods.POST,
+      ...defaults.versions.v1,
+      uri: `${prefix}/add-attribute-option/:attributeId`,
+    },
+  },
 }
 
 export default attribute

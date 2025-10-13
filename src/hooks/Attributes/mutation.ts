@@ -1,16 +1,22 @@
+import { useMutation } from '@tanstack/react-query'
+import {
+  addAttributeOptions,
+  deleteAttributeOptions,
+  updateAttributeOptions,
+} from '@/utils/apiUtils/services/attribute'
 
-import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '~/app/_layout';
-import { createTicket } from '~/utils/services/support';
-
-export const useCreateTicket = () => {
+export const useUpdateAttributeOptions = () => {
   return useMutation({
-    mutationFn: (payload: any) => createTicket(payload),
-    onSuccess: () => {
-      // ✅ refetch posts
-      queryClient.invalidateQueries({
-        queryKey: ['createTicket'],
-      });
-    },
-  });
-};
+    mutationFn: (payload: any) => updateAttributeOptions(payload),
+  })
+}
+export const useDeleteAttributeOptions = () => {
+  return useMutation({
+    mutationFn: (payload: any) => deleteAttributeOptions(payload),
+  })
+}
+export const useAddAttributeOptions = () => {
+  return useMutation({
+    mutationFn: (payload: any) => addAttributeOptions(payload),
+  })
+}

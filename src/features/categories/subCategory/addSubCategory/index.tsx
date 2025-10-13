@@ -153,11 +153,12 @@ export default function AddSubCategory({
     }
   }
 
-  const removePropertyField = (index: number) => {
-    const updatedProperties = [...properties]
+  const removePropertyField = (index: any) => {
+    const updatedProperties = [...form.watch('properties')]
     updatedProperties.splice(index, 1)
-    setProperties(updatedProperties)
+    form.setValue('properties', updatedProperties)
   }
+  console.log(form.watch('properties'))
 
   return (
     <>
@@ -204,7 +205,7 @@ export default function AddSubCategory({
                   Properties
                 </h3>
 
-                {fields.map((field, index) => (
+                {fields?.map((field, index) => (
                   <Card key={field.id} className='relative space-y-4 p-5'>
                     <div className='flex items-center justify-between border-b pb-2'>
                       <h4 className='font-medium text-gray-700'>
@@ -263,9 +264,9 @@ export default function AddSubCategory({
                                 <SelectItem value='text'>Text</SelectItem>
                                 <SelectItem value='number'>Number</SelectItem>
                                 <SelectItem value='select'>Select</SelectItem>
-                                {/* <SelectItem value='checkbox'>
+                                <SelectItem value='checkbox'>
                                   Checkbox
-                                </SelectItem> */}
+                                </SelectItem>
                                 {/* <SelectItem value='range'>Range</SelectItem> */}
                               </SelectContent>
                             </Select>
@@ -298,45 +299,54 @@ export default function AddSubCategory({
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name={`properties.${index}.dependsOn`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Depends On</FormLabel>
-                            <Select
-                              onValueChange={(value) => {
-                                if (value === 'clear') {
-                                  field.onChange('') // clear form value
-                                  return
-                                }
-                                field.onChange(value)
-                              }}
-                              value={field.value || ''} // ✅ make it controlled
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder='Select the relation' />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem
-                                  value='clear'
-                                  className='text-red-500'
-                                >
-                                  Clear
-                                </SelectItem>
-                                {form.watch('properties')?.map((i) => (
-                                  <SelectItem value={i?.label} key={i?.label}>
-                                    {i?.label}
+                      {form?.watch('properties')?.length ? (
+                        <FormField
+                          control={form.control}
+                          name={`properties.${index}.dependsOn`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Depends On</FormLabel>
+                              <Select
+                                onValueChange={(value) => {
+                                  if (value === 'clear') {
+                                    field.onChange('') // clear form value
+                                    return
+                                  }
+                                  field.onChange(value)
+                                }}
+                                value={field.value || ''} // ✅ make it controlled
+                              >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder='Select the relation' />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem
+                                    value='clear'
+                                    className='text-red-500'
+                                  >
+                                    Clear
                                   </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                                  {/* {(form.watch('properties') || [])?.map(
+                                    (i) => (
+                                      <SelectItem
+                                        value={i?.label}
+                                        key={i?.label}
+                                      >
+                                        {i?.label}
+                                      </SelectItem>
+                                    )
+                                  )} */}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      ) : (
+                        <></>
+                      )}
                       <FormField
                         control={form.control}
                         name={`properties.${index}.visibleInFilter`}
@@ -367,11 +377,13 @@ export default function AddSubCategory({
                   className='mt-4 w-full'
                   onClick={() =>
                     append({
+                      uuid: '',
                       label: '',
                       filterType: 'text',
                       visibleInFilter: true,
                       // auto-increment
                       order: fields.length + 1,
+                      dependsOn: '',
                     })
                   }
                 >
