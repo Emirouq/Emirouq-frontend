@@ -66,6 +66,7 @@ export const SelectField = ({
   const { data: attributeList }: any = useGetAttributeOptionsForParent({
     parentId,
     keyword: search,
+    dependsOn,
   })
   const [showAddModal, setShowAddModal] = useState({
     open: false,

@@ -153,13 +153,6 @@ export default function AddSubCategory({
     }
   }
 
-  const removePropertyField = (index: any) => {
-    const updatedProperties = [...form.watch('properties')]
-    updatedProperties.splice(index, 1)
-    form.setValue('properties', updatedProperties)
-  }
-  console.log(form.watch('properties'))
-
   return (
     <>
       <Button
@@ -216,6 +209,16 @@ export default function AddSubCategory({
                         size='icon'
                         variant='ghost'
                         onClick={() => {
+                          const checkIsDependsOn = form
+                            .watch('properties')
+                            ?.find((i) => field.label === i.dependsOn)
+                          if (checkIsDependsOn || field.dependsOn) {
+                            return toast({
+                              title:
+                                'Cannot delete it, because it depends on something',
+                              className: 'bg-red-600 text-white',
+                            })
+                          }
                           remove(index)
                           form.setValue('deletedProperties', [
                             ...(form.getValues().deletedProperties || []),
@@ -328,7 +331,7 @@ export default function AddSubCategory({
                                   >
                                     Clear
                                   </SelectItem>
-                                  {/* {(form.watch('properties') || [])?.map(
+                                  {(form.watch('properties') || [])?.map(
                                     (i) => (
                                       <SelectItem
                                         value={i?.label}
@@ -337,7 +340,7 @@ export default function AddSubCategory({
                                         {i?.label}
                                       </SelectItem>
                                     )
-                                  )} */}
+                                  )}
                                 </SelectContent>
                               </Select>
                               <FormMessage />
@@ -360,13 +363,6 @@ export default function AddSubCategory({
                           </FormItem>
                         )}
                       />
-                      <button
-                        type='button'
-                        onClick={() => removePropertyField(index)}
-                        className='text-red-500 hover:text-red-700'
-                      >
-                        <Trash className='h-4 w-4' />
-                      </button>
                     </div>
                   </Card>
                 ))}

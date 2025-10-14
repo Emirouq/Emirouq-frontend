@@ -28,7 +28,9 @@ export const useGetAttributeOptionsForParent = ({
     queryKey: ['get-attribute-parent-options', parentId, keyword],
     queryFn: () =>
       getAttributeOptions({
-        query: { keyword },
+        query: {
+          ...(keyword && { keyword }),
+        },
         pathParams: { attributeId: parentId },
       }),
     refetchOnMount: false,
@@ -37,16 +39,15 @@ export const useGetAttributeOptionsForParent = ({
     enabled: !!parentId,
   })
 
-export const useGetAttributeOptions = ({
-  attributeId,
-  dependsOn,
-  keyword = '',
-}: any) =>
+export const useGetAttributeOptions = ({ attributeId, keyword = '' }: any) =>
   useInfiniteQuery({
-    queryKey: ['attributes-options', attributeId, dependsOn, keyword],
+    queryKey: ['attributes-options', attributeId, keyword],
     queryFn: ({ pageParam }) =>
       getAttributeOptions({
-        query: { start: pageParam, dependsOn, keyword },
+        query: {
+          start: pageParam,
+          ...(keyword && { keyword }),
+        },
         pathParams: { attributeId },
       }),
     getNextPageParam: (lastPage: any, allPages: any) => {

@@ -59,7 +59,12 @@ export default function Attributes() {
                       }
                     />
                   ) : (
-                    <>--</>
+                    <>
+                      <div className=''>
+                        {attr.label} ({attr.filterType})
+                      </div>
+                      <>--</>
+                    </>
                   )}
                 </div>
               </div>
