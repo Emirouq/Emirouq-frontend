@@ -211,8 +211,8 @@ export default function AddSubCategory({
                         onClick={() => {
                           const checkIsDependsOn = form
                             .watch('properties')
-                            ?.find((i) => field.label === i.dependsOn)
-                          if (checkIsDependsOn || field.dependsOn) {
+                            ?.find((i) => field.label === i.dependsOn)?.label
+                          if (!!checkIsDependsOn || !!field.dependsOn) {
                             return toast({
                               title:
                                 'Cannot delete it, because it depends on something',
@@ -238,10 +238,7 @@ export default function AddSubCategory({
                           <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                              <Input
-                                placeholder='e.g. Engine Type'
-                                {...field}
-                              />
+                              <Input placeholder='' {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -302,7 +299,10 @@ export default function AddSubCategory({
                           </FormItem>
                         )}
                       />
-                      {form?.watch('properties')?.length ? (
+                      {form
+                        ?.watch('properties')
+                        ?.filter((i) => i?.label && i?.label.trim() !== '') // <-- avoid empty labels
+                        ?.length ? (
                         <FormField
                           control={form.control}
                           name={`properties.${index}.dependsOn`}
@@ -317,7 +317,7 @@ export default function AddSubCategory({
                                   }
                                   field.onChange(value)
                                 }}
-                                value={field.value || ''} // ✅ make it controlled
+                                value={field.value} // ✅ make it controlled
                               >
                                 <FormControl>
                                   <SelectTrigger>
@@ -331,16 +331,18 @@ export default function AddSubCategory({
                                   >
                                     Clear
                                   </SelectItem>
-                                  {(form.watch('properties') || [])?.map(
-                                    (i) => (
+                                  {(form.watch('properties') || [])
+                                    ?.filter(
+                                      (i) => i?.label && i?.label.trim() !== ''
+                                    ) // <-- avoid empty labels
+                                    ?.map((i) => (
                                       <SelectItem
                                         value={i?.label}
                                         key={i?.label}
                                       >
                                         {i?.label}
                                       </SelectItem>
-                                    )
-                                  )}
+                                    ))}
                                 </SelectContent>
                               </Select>
                               <FormMessage />

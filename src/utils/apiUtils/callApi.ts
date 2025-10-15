@@ -4,9 +4,9 @@ import { getItem } from './localStorageControl'
 export const socketHostname = () => 'wss://api-v1.emirouq.ae'
 // export const socketHostname = () => 'wss://localhost:4000';
 export const hostname = () => {
-  const hostUrl = 'http://127.0.0.1:4001'
   // const hostUrl = 'http://127.0.0.1:4001'
-  // const hostUrl = 'https://api-v1.emirouq.ae'
+  // const hostUrl = 'http://127.0.0.1:4001'
+  const hostUrl = 'https://api-v1.emirouq.ae'
 
   return hostUrl
 }
