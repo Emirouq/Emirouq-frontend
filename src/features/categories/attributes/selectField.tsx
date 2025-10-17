@@ -100,24 +100,6 @@ export const SelectField = ({
     }
   }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = containerRef.current
-      if (!container || !hasNextPage || isFetchingNextPage) return
-
-      const { scrollTop, scrollHeight, clientHeight } = container
-      if (scrollTop + clientHeight >= scrollHeight - 100) {
-        fetchNextPage()
-      }
-    }
-
-    const container = containerRef.current
-    if (container) {
-      container.addEventListener('scroll', handleScroll)
-      return () => container.removeEventListener('scroll', handleScroll)
-    }
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage])
-
   const onOptionUpdate = ({ value, attributeId }: any) => {
     updateOptions
       .mutateAsync({
