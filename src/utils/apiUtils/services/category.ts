@@ -48,3 +48,15 @@ export const updateSubCategoryService = async ({ body, pathParams }: any) => {
     pathParams,
   })
 }
+export const deleteSubCategoryService = async ({ pathParams }: any) => {
+  return callApi({
+    uriEndPoint: { ...category.deleteSubCategory.v1 } as ApiEndpoint,
+    pathParams,
+  })
+}
+export const deleteCategoryService = async ({ pathParams }: any) => {
+  return callApi({
+    uriEndPoint: { ...category.deleteCategory.v1 } as ApiEndpoint,
+    pathParams,
+  })
+}

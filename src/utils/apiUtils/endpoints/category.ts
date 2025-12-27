@@ -50,6 +50,20 @@ const category = {
       uri: '/category/subCategory/:categoryId/:subCategoryId',
     },
   },
+  deleteSubCategory: {
+    v1: {
+      ...defaults.methods.DELETE,
+      ...defaults.versions.v1,
+      uri: '/category/subCategory/:subCategoryId',
+    },
+  },
+  deleteCategory: {
+    v1: {
+      ...defaults.methods.DELETE,
+      ...defaults.versions.v1,
+      uri: '/category/:categoryId',
+    },
+  },
 }
 
 export default category

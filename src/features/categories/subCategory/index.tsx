@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from '@tanstack/react-router'
 import { debounce } from 'lodash'
+import { useDeleteSubCategory } from '@/hooks/Category/mutation'
 import { useGetSubCategories } from '@/hooks/Category/query'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
@@ -11,9 +12,11 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import AddSubCategory from './addSubCategory'
 import { columns } from './components/subcategory-columns'
 import { SubCategoryTable } from './components/subcategory-table'
+import { ConfirmDelete } from './confirm-delete'
 
 export default function Subcategory() {
   const [open, setOpen] = useState(false)
+  const [deleteModal, setDeleteModal] = useState('' as any)
   const [editDetails, setEditDetails] = useState(null as any)
   const { id: categoryId }: any = useParams({ strict: false })
   const [keyword, setKeyword] = useState('')
@@ -25,7 +28,16 @@ export default function Subcategory() {
     setKeyword(keyword)
   }
   const debounceSearch = debounce(action, 500)
+  const deleteSubCategory = useDeleteSubCategory()
 
+  const onConfirmDelete = (subCategoryId: string) => {
+    deleteSubCategory
+      .mutateAsync({ pathParams: { subCategoryId } })
+      .then(() => {
+        refetchSubCategories()
+        setDeleteModal('')
+      })
+  }
   return (
     <div>
       <Header fixed>
@@ -67,9 +79,21 @@ export default function Subcategory() {
               open,
               setOpen,
               setEditDetails,
+              onConfirmDelete,
+              loading: deleteSubCategory.isPending,
+              setDeleteModal,
+              deleteModal,
             })}
           />
         </div>
+        <ConfirmDelete
+          open={!!deleteModal}
+          onConfirm={() => {
+            onConfirmDelete(deleteModal)
+          }}
+          setOpen={setDeleteModal}
+          loading={deleteSubCategory.isPending}
+        />
       </Main>
     </div>
   )

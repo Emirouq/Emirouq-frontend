@@ -1,5 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -11,7 +12,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import LongText from '@/components/long-text'
 
-export const columns: any = ({ setOpen, setEditDetails }: any) => {
+export const columns: any = ({
+  setOpen,
+  setEditDetails,
+  setDeleteModal,
+}: any) => {
   return [
     {
       accessorKey: 'Sr No.',
@@ -27,7 +32,18 @@ export const columns: any = ({ setOpen, setEditDetails }: any) => {
         return <LongText className=''>{row?.original?.title}</LongText>
       },
     },
-
+    {
+      accessorKey: 'logo',
+      header: 'Category Logo',
+      cell: ({ row }: any) => (
+        <div className=''>
+          <Avatar>
+            <AvatarImage src={row?.original?.logo} />
+            <AvatarFallback>{row?.original?.title?.charAt(0)}</AvatarFallback>
+          </Avatar>
+        </div>
+      ),
+    },
     {
       accessorKey: 'properties',
       header: 'No. of Properties',
@@ -75,7 +91,14 @@ export const columns: any = ({ setOpen, setEditDetails }: any) => {
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => {}} className='!text-red-500'>
+
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e?.stopPropagation()
+                  setDeleteModal(row?.original?.uuid)
+                }}
+                className='!text-red-500'
+              >
                 Delete
                 <DropdownMenuShortcut>
                   <IconTrash size={16} />

@@ -19,6 +19,7 @@ export const columns: any = ({
   setEditId,
   setTitle,
   setLogo,
+  setDeleteModal,
 }: any) => {
   const navigate = useNavigate()
   return [
@@ -117,7 +118,13 @@ export const columns: any = ({
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => {}} className='!text-red-500'>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e?.stopPropagation()
+                  setDeleteModal(row?.original?.uuid)
+                }}
+                className='!text-red-500'
+              >
                 Delete
                 <DropdownMenuShortcut>
                   <IconTrash size={16} />

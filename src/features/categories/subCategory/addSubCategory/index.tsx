@@ -46,11 +46,20 @@ const propertySchema = z.object({
   order: z.number().min(1),
   visibleInFilter: z.boolean().default(true),
   dependsOn: z.string().optional(),
+  image: z.string().optional(), // 👈 Base64 image
 })
+const fileToBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = reject
+  })
 
 // 🧱 Full form schema
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
+  image: z.string().min(1, 'Image is required'),
   deletedProperties: z.array(z.string()).optional(), // to track deleted properties during edit
   properties: z
     .array(propertySchema)
@@ -102,6 +111,7 @@ export default function AddSubCategory({
           visibleInFilter: true,
           order: 1,
           dependsOn: '',
+          image: '',
         },
       ],
     },
@@ -110,10 +120,10 @@ export default function AddSubCategory({
     if (editDetails?.uuid) {
       form.reset({
         ...editDetails,
+        image: editDetails?.logo || '',
       })
     }
   }, [editDetails, form])
-
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'properties',
@@ -125,6 +135,7 @@ export default function AddSubCategory({
         title: values.title,
         properties: values.properties,
         deletedProperties: values.deletedProperties || [],
+        ...(values?.image?.includes('data:') && { image: values.image }),
       },
       pathParams: {
         categoryId,
@@ -187,6 +198,48 @@ export default function AddSubCategory({
                         {...field}
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='image'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sub Category Image</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='file'
+                        accept='image/*'
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0]
+                          if (!file) return
+
+                          // Optional size validation (2MB)
+                          if (file.size > 2 * 1024 * 1024) {
+                            toast({
+                              title: 'Image must be under 2MB',
+                              className: 'bg-red-600 text-white',
+                            })
+                            return
+                          }
+
+                          const base64 = await fileToBase64(file)
+                          field.onChange(base64)
+                        }}
+                      />
+                    </FormControl>
+
+                    {/* Preview */}
+                    {field.value && (
+                      <img
+                        src={field.value}
+                        alt='Preview'
+                        className='mt-2 h-24 rounded border object-cover'
+                      />
+                    )}
+
                     <FormMessage />
                   </FormItem>
                 )}

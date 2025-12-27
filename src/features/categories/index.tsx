@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { debounce } from 'lodash'
+import { useDeleteCategory } from '@/hooks/Category/mutation'
 import { useGetCategories } from '@/hooks/Category/query'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
@@ -9,6 +10,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import AddCategory from './addCategory'
 import { columns } from './components/category-columns'
 import { CategoryTable } from './components/category-table'
+import { ConfirmDelete } from './confirm-delete'
 
 export default function Categories() {
   const [open, setOpen] = useState(false)
@@ -16,6 +18,7 @@ export default function Categories() {
   const [title, setTitle] = useState('')
   const [logo, setLogo] = useState({ url: '', file: '' })
   const [keyword, setKeyword] = useState('')
+  const [deleteModal, setDeleteModal] = useState('' as any)
 
   const [startIndex, setStartIndex] = useState<number>(1)
   const [viewPage, setViewPage] = useState(10)
@@ -30,6 +33,14 @@ export default function Categories() {
     setKeyword(keyword)
   }
   const debounceSearch = debounce(action, 500)
+  const deleteCategory = useDeleteCategory()
+
+  const onConfirmDelete = (categoryId: string) => {
+    deleteCategory.mutateAsync({ pathParams: { categoryId } }).then(() => {
+      refetch()
+      setDeleteModal('')
+    })
+  }
   return (
     <div>
       <Header fixed>
@@ -83,9 +94,18 @@ export default function Categories() {
               setEditId,
               setTitle,
               setLogo,
+              setDeleteModal,
             })}
           />
         </div>
+        <ConfirmDelete
+          open={!!deleteModal}
+          onConfirm={() => {
+            onConfirmDelete(deleteModal)
+          }}
+          setOpen={setDeleteModal}
+          loading={deleteCategory.isPending}
+        />
       </Main>
     </div>
   )
