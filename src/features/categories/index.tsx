@@ -21,16 +21,21 @@ export default function Categories() {
   const [deleteModal, setDeleteModal] = useState('' as any)
 
   const [startIndex, setStartIndex] = useState<number>(1)
+  const [page, setPage] = useState<number>(1)
   const [viewPage, setViewPage] = useState(10)
+  const [resetPageKey, setResetPageKey] = useState(0)
 
   const { data, refetch, isFetching }: any = useGetCategories({
     keyword,
-    page: startIndex,
+    page,
     limit: viewPage,
   })
 
   const action = (keyword: any) => {
     setKeyword(keyword)
+    setPage(1)
+    setStartIndex(1)
+    setResetPageKey((k) => k + 1)
   }
   const debounceSearch = debounce(action, 500)
   const deleteCategory = useDeleteCategory()
@@ -85,8 +90,18 @@ export default function Categories() {
             isFetching={isFetching}
             startIndex={startIndex}
             viewPage={viewPage}
-            setViewPage={setViewPage}
-            setStartIndex={setStartIndex}
+            setViewPage={(size: number) => {
+              setViewPage(size)
+              setPage(1)
+              setStartIndex(1)
+              setResetPageKey((k) => k + 1)
+            }}
+            setStartIndex={(offset: number) => {
+              setStartIndex(offset)
+              // Convert offset back to page number for the API
+              setPage(Math.ceil(offset / viewPage) || 1)
+            }}
+            resetPage={resetPageKey}
             columns={columns({
               open,
               setOpen,

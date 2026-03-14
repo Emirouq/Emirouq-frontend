@@ -41,6 +41,7 @@ export function CategoryTable({
   setViewPage,
   startIndex,
   setStartIndex,
+  resetPage,
 }: any) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -49,6 +50,7 @@ export function CategoryTable({
 
   const table = useReactTable({
     data: useMemo(() => data?.data || [], [data?.data]),
+    pageCount: data?.pagination?.totalPages ?? 0,
     columns,
     state: {
       sorting,
@@ -138,11 +140,12 @@ export function CategoryTable({
         </Table>
       </div>
       <TablePagination
-        totalCount={data?.totalCount}
+        totalCount={data?.pagination?.totalCount}
         startIndex={startIndex}
         setStartIndex={setStartIndex}
         viewPage={viewPage}
         setViewPage={setViewPage}
+        renderCurrentPage={resetPage}
       />
     </div>
   )

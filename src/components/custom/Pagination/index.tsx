@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
 import {
   Pagination,
   PaginationContent,
@@ -10,13 +9,6 @@ import {
   PaginationLink,
   PaginationEllipsis,
 } from '@/components/ui/pagination'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 
 // interface TablePaginationProps {
 //   startIndex?: number
@@ -32,25 +24,16 @@ const TablePagination = ({
   startIndex,
   setStartIndex,
   viewPage,
-  setViewPage,
   totalCount,
   renderCurrentPage,
 }: any) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const options = [10, 25, 50, 100]
 
   const totalPages = Math.ceil(totalCount / viewPage)
 
   const handleChangePagination = (value: number) => {
     setCurrentPage(value)
     setStartIndex(viewPage * (value - 1) + 1)
-  }
-
-  const handlePageSizeChange = (value: string) => {
-    const pageSize = Number(value)
-    setViewPage(pageSize)
-    setCurrentPage(1)
-    setStartIndex(1)
   }
 
   useEffect(() => {
@@ -67,7 +50,7 @@ const TablePagination = ({
         'flex w-full flex-col items-center justify-between md:flex-row'
       )}
     >
-      <div className='flex items-center space-x-2'>
+      {/* <div className='flex items-center space-x-2'>
         <Label htmlFor='page-size' className='text-sm text-muted-foreground'>
           Show
         </Label>
@@ -83,7 +66,7 @@ const TablePagination = ({
             ))}
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
 
       <div className='mt-4 flex items-center space-x-4 md:mt-0'>
         <div className='shrink-0'>
