@@ -21,6 +21,9 @@ const AddCategory = ({
   setTitle,
   logo,
   setLogo,
+  index,
+  setIndex,
+  data,
 }: any) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -36,7 +39,6 @@ const AddCategory = ({
       })
       return
     }
-    console.log('logo', logo)
     if (!logo.file && !logo.url) {
       toast({
         title: 'Validation Error',
@@ -45,10 +47,19 @@ const AddCategory = ({
       })
       return
     }
+    if (!index) {
+      toast({
+        title: 'Validation Error',
+        description: 'Category index is required.',
+        variant: 'destructive',
+      })
+      return
+    }
     setIsSubmitting(true)
     const formData = new FormData()
     formData.append('title', title)
     formData.append('logo', logo?.file)
+    formData.append('index', index)
     if (editId) {
       updateCategory
         ?.mutateAsync({ body: formData, pathParams: { id: editId } })
@@ -61,12 +72,13 @@ const AddCategory = ({
           setOpen(false)
           setTitle('')
           setLogo({ url: '', file: '' })
+          setIndex('')
           refetch()
         })
-        ?.catch(() => {
+        ?.catch((err) => {
           toast({
             title: 'Error',
-            description: 'Failed to update category',
+            description: err.message,
             variant: 'destructive',
             className: 'bg-red-500 text-white',
           })
@@ -87,12 +99,13 @@ const AddCategory = ({
             setOpen(false)
             setTitle('')
             setLogo({ url: '', file: '' })
+            setIndex('')
             refetch()
           },
-          onError: () => {
+          onError: (err) => {
             toast({
               title: 'Error',
-              description: 'Failed to add category',
+              description: err.message,
               variant: 'destructive',
               className: 'bg-red-500 text-white',
             })
@@ -107,19 +120,41 @@ const AddCategory = ({
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Add</Button>
+      <Button
+        onClick={() => {
+          setIndex((data?.pagination?.totalCount || 0) + 1)
+          setOpen(true)
+        }}
+      >
+        Add
+      </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{`${editId ? 'Edit' : 'Add'} Category`}</DialogTitle>
           </DialogHeader>
           <div className='space-y-4'>
-            <label className='block text-sm font-medium'>Category Name</label>
-            <Input
-              placeholder='Enter category name'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <div>
+              <label className='mb-1 block text-sm font-medium'>
+                Category Name
+              </label>
+              <Input
+                placeholder='Enter category name'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className='mb-1 block text-sm font-medium'>
+                Category Index
+              </label>
+              <Input
+                type='number'
+                placeholder='Enter category index (e.g., 1)'
+                value={index}
+                onChange={(e) => setIndex(e.target.value)}
+              />
+            </div>
             <div className='flex-col items-center'>
               <CustomUpload label='Upload Logo' file={logo} setFile={setLogo} />
             </div>
