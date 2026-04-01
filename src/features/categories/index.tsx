@@ -17,6 +17,7 @@ export default function Categories() {
   const [editId, setEditId] = useState()
   const [title, setTitle] = useState('')
   const [logo, setLogo] = useState({ url: '', file: '' })
+  const [index, setIndex] = useState('')
   const [keyword, setKeyword] = useState('')
   const [deleteModal, setDeleteModal] = useState('' as any)
 
@@ -81,6 +82,9 @@ export default function Categories() {
               setTitle={setTitle}
               logo={logo}
               setLogo={setLogo}
+              index={index}
+              setIndex={setIndex}
+              data={data}
             />
           </div>
         </div>
@@ -110,6 +114,7 @@ export default function Categories() {
               setTitle,
               setLogo,
               setDeleteModal,
+              setIndex,
             })}
           />
         </div>

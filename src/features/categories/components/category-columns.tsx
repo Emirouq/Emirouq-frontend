@@ -20,6 +20,7 @@ export const columns: any = ({
   setTitle,
   setLogo,
   setDeleteModal,
+  setIndex,
 }: any) => {
   const navigate = useNavigate()
   return [
@@ -87,6 +88,7 @@ export const columns: any = ({
                   setEditId(row?.original?.uuid)
                   setTitle(row?.original?.title)
                   setLogo({ url: row?.original?.logo, file: '' })
+                  setIndex(row?.original?.index ?? '')
                 }}
               >
                 Edit
